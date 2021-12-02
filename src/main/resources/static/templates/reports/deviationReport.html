@@ -1,0 +1,162 @@
+<style type="text/css">
+	input:focus {
+		border: 1px solid grey !important;
+	}
+
+	.date1 {
+		width: 200px !important;
+		font-size: 12px !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+		background: #fff url(image/calendar_2.png) 97% 50% no-repeat !important;
+	}
+
+	.date1::-webkit-inner-spin-button {
+		display: none;
+	}
+
+	.date1::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
+</style>
+
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left">Deviation Report</h4>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+									<div class="row">
+										<div class="col-md-12 text-center">
+											<img src="../../image/quarantine.png" style="width: 50px; height: 50px;" />
+										</div>
+									</div>
+									<h4 class="m-t-0 header-title">Search By:</h4>
+
+									<div class="row" style="margin-top:1%;">
+										<div class="col-sm-2" style="padding-top: 10px">
+											<label class="control-form"> Search by Date:<span
+													style="color: red;">*</span></label>
+										</div>
+										<div class="col-sm-3">
+											<input type="date" class="date1" ng-model="date"
+												ng-change="vm.generateReport();">
+										</div>
+									</div>
+
+									<h4 class="m-t-0 header-title" style="margin-top:2% !important;">Or:</h4>
+
+									<div class="row" style="margin-top: 1%;">
+										<div class="col-sm-2" style="padding-top: 10px">
+											<label class="control-form"> Start Date:<span
+													style="color: red;">*</span></label>
+										</div>
+										<div class="col-sm-3">
+											<input type="date" class="date1" ng-model="fromDate"
+												ng-change="vm.generateReportByDateRange();">
+										</div>
+										<div class="col-sm-2" style="padding-top: 10px">
+											<label class="control-form"> End Date:<span
+													style="color: red;">*</span></label>
+										</div>
+										<div class="col-sm-3">
+											<input type="date" class="date1" ng-model="toDate"
+												ng-change="vm.generateReportByDateRange();">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box table-responsive">
+									<table class="table table-bordered" datatable="ng" dt-column-defs="dtColumnDefs"
+										dt-options="dtOptions" style="width:100%;margin:0 auto">
+										<thead>
+											<tr class="customTable">
+												<th> # </th>
+												<th> PO No. </th>
+												<th> Item Id. </th>
+												<th> Item Details </th>
+												<th> Status </th>
+												<th> ZM19 </th>
+												<th> PO. No. Missing in Invoice </th>
+												<th> PO. Change </th>
+												<th> PO. Not Created </th>
+												<th> WH Error </th>
+												<th> Price Difference </th>
+												<th> Quantit1 AMD </th>
+												<th> Tax Code </th>
+												<th> Condition </th>
+												<th> Others</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="arr in vm.reportsList track by $index">
+												<td>{{$index + 1}}</td>
+												<td>{{arr.purchaseOrderNo}}</td>
+												<td>{{arr.poItemId}}</td>
+												<td><b>{{arr.poItemDtl}}</b></td>
+												<td style="color:green">{{arr.status}}</td>
+												<td><i class="fa fa-check-circle" ng-show="{{arr.error1}} == 1"
+														style="color:red"></i></td>
+												<td><i class="fa fa-check-circle" ng-show="{{arr.error2}} == 1"
+														style="color:red"></i></td>
+												<td><i class="fa fa-check-circle" ng-show="{{arr.error3}} == 1"
+														style="color:red"></i></td>
+												<td><i class="fa fa-check-circle" ng-show="{{arr.error4}} == 1"
+														style="color:red"></i></td>
+												<td><i class="fa fa-check-circle" ng-show="{{arr.error5}} == 1"
+														style="color:red"></i></td>
+												<td><i class="fa fa-check-circle" ng-show="{{arr.error6}} == 1"
+														style="color:red"></i></td>
+												<td><i class="fa fa-check-circle" ng-show="{{arr.error7}} == 1"
+														style="color:red"></i></td>
+												<td><i class="fa fa-check-circle" ng-show="{{arr.error8}} == 1"
+														style="color:red"></i></td>
+												<td><i class="fa fa-check-circle" ng-show="{{arr.error9}} == 1"
+														style="color:red"></i></td>
+												<td><i class="fa fa-check-circle" ng-show="{{arr.error10}} == 1"
+														style="color:red"></i></td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<button class="btn btn-info w-md btn-rounded waves-effect waves-light"
+									ng-show="vm.reportsList.length>0" style="float: right; width:20%;"
+									ng-json-export-excel data="vm.reportsList" report-fields="vm.labels"
+									filename="'Deviation Report'">Export</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+</div>

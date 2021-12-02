@@ -1,0 +1,436 @@
+<style>
+	input:focus {
+		border: 1px solid grey !important;
+	}
+
+	.input1 {
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		font-size: 12px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+	}
+
+	.reading {
+		border: 0px !important;
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		text-align: center !important;
+		font-size: 12px !important;
+	}
+
+	.reading:focus {
+		border: 0px !important;
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		text-align: center !important;
+		font-size: 12px !important;
+	}
+
+	.input1:focus,
+	.date1:focus {
+		width: 120px !important;
+		line-height: 30px !important;
+		border: 2.5px solid #ccc !important;
+		border-radius: 4px !important;
+
+	}
+
+	.date1 {
+		width: 120px !important;
+		line-height: 30px !important;
+		font-size: 12px !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+		background: #fff url(image/calendar_2.png) 97% 50% no-repeat !important;
+	}
+
+	.date1::-webkit-inner-spin-button {
+		display: none;
+	}
+
+	.date1::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
+
+	th,
+	td {
+		white-space: nowrap;
+	}
+</style>
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left"> Purchase Order - Inwards </h4>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+
+									<h4 class="m-t-0 header-title">Search By:</h4>
+
+									<form>
+										<div class="form-row">
+											<div class="form-group col-sm-2 col-xs-3">
+												<label class="col-form-label">Vendor Name<span> <i
+															style="color:red">*</i></span></label>
+											</div>
+											<div class="form-group col-sm-3 col-xs-3">
+												<select class="form-control f_left" style="height: 100%;"
+													ng-model="vendor" ng-change="fetchMaterialDetails(vendor)">
+													<option value="selectVendor">Select Vendor Name</option>
+													<option ng-repeat="opts in vendorDetails | orderBy:'name'"
+														value="{{opts}}">{{opts.name}} </option>
+												</select>
+											</div>
+											<div class="col-sm-1 col-xs-1"></div>
+											<div class="form-group col-sm-2 col-xs-3">
+												<label class="col-form-label"> Material ID: <span> <i
+															style="color:red">*</i></span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<input name="itemList" type="text" placeholder="Enter Item Name"
+													ng-model="materialObj" ng-disabled="vendor=='selectVendor'"
+													typeahead-on-select="changeMaterialFun(materialObj)"
+													uib-typeahead="item as item.id for item in materialDetails | filter:$viewValue | limitTo:8"
+													typeahead-no-results="itemLists"
+													class="form-control typeahead-demo">
+											</div>
+										</div>
+									</form>
+
+									<h4 class="m-t-0 header-title">Or:</h4>
+									<form>
+										<div class="form-row">
+											<div class="form-group col-sm-2 col-xs-3">
+												<label class="col-form-label" style="padding-top: 11px;"> PO Number:
+													<span> <i style="color:red">*</i></span></label>
+											</div>
+											<div class="form-group col-sm-3 col-xs-3">
+												<div class="col-form-label">
+													<input type="number"
+														onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+														ng-model="purchaseOrderNo" ng-change="resetVendor()"
+														class="f_left form-control">
+												</div>
+											</div>
+											<div class="col-sm-4 col-xs-4"></div>
+											<div class="col-sm-3 col-xs-3">
+												<button style="width: 65%;"
+													class="btn btn-warning btn-rounded w-md waves-effect waves-light"
+													ng-click="fetchTableData()" ng-disabled="isLoading">
+													<span ng-show="isLoading">Loading..</span>
+													<span ng-hide="isLoading">Submit</span>
+												</button>
+											</div>
+										</div>
+
+									</form>
+								</div>
+							</div>
+						</div>
+
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-show="isLoading">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box text-center">
+									<img src="../../image/transparent-background-loading.gif" alt="loading-img"
+										style="width: 50px; height: 50px"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-show="showTable && !isLoading">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box table-responsive">
+									<table class="table table-bordered" id="tbl_grn" datatable="ng"
+										dt-column-defs="dtColumnDefs" dt-options="dtOptions">
+										<thead>
+											<tr class="customTable">
+												<th>#</th>
+												<th> PO Number </th>
+												<th> Vendor Name </th>
+												<th> Item Code </th>
+												<th> Item Details </th>
+
+												<!-- Manual Entries Start -->
+												<th><input type="checkbox" class="c_check" ng-model="vm.selectAllChk"
+														ng-click="selectAll()"><br /> Edit </th>
+
+												<th> Inward Date </th>
+												<th> Invoice No. </th>
+												<th> Challan No. </th>
+												<th> Doc Date </th>
+												<th> Remarks </th>
+												<th> I/D/S/O </th>
+												<th> Bill of Entry </th>
+												<th> Courier </th>
+												<th> Docket No. </th>
+												<th> SAP GRN No. </th>
+												<th> SAP GRN Date </th>
+												<th> Delay Days </th>
+												<th> Responsible Person </th>
+												<th> Delay Percentage </th>
+												<th> Acc. Doc. Handover </th>
+												<th> Handover Date </th>
+												<th> Vehicle Number </th>
+												<th> Vehicle Status </th>
+												<th> Unload Type </th>
+												<th> Packing Type </th>
+												<!-- Manual Entries End -->
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr ng-repeat="arr in allDetails track by $index">
+												<td> {{$index + 1}} </td>
+												<td> {{arr.purchaseOrderNo}} </td>
+												<td> {{arr.venName}} </td>
+												<td> {{arr.itemMstId}} </td>
+												<td> {{arr.itemDetails}} </td>
+
+
+												<!-- Manual Entries Start -->
+												<td><input type="checkbox" class="c_check" ng-checked="arr.flag"
+														ng-click="check($index, arr)"><br /></td>
+												<td>
+													<!-- <div ng-hide="arr.flag">{{arr.inwardDate|date: "dd/MM/yyyy"}}</div> -->
+													<!-- <div> -->
+													<div>
+														<input type="date" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'date1' : 'reading'"
+															ng-model="arr.inwardDate"
+															value='{{arr.inwardDate|date: "yyyy-MM-dd"}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<!-- <div ng-hide="arr.flag"> {{arr.invoiceNumber}} </div> -->
+													<!-- <div> -->
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.invoiceNumber" value='{{arr.invoiceNumber}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.challanNumber" value='{{arr.challanNumber}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="date" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'date1' : 'reading'"
+															ng-model="arr.docDate"
+															value='{{arr.docDate|date: "yyyy-MM-dd"}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.remarks" value='{{arr.remarks}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.type" value='{{arr.type}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.boe" value='{{arr.boe}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.courier" value='{{arr.courier}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.docketNo" value='{{arr.docketNo}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.sapGrnNo" value='{{arr.sapGrnNo}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="date" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'date1' : 'reading'"
+															ng-model="arr.sapGrnDate"
+															value='{{arr.sapGrnDate|date: "yyyy-MM-dd"}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.delayDays" value='{{arr.delayDays}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.resPerson" value='{{arr.resPerson}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.delayPerc" value='{{arr.delayPerc}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.accDocHandover" value='{{arr.accDocHandover}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="date" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'date1' : 'reading'"
+															ng-model="arr.handoverDate"
+															value='{{arr.handoverDate|date: "yyyy-MM-dd"}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.vehicleNo" value='{{arr.vehicleNo}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.vehicleStatus" value='{{arr.vehicleStatus}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.unloadType" value='{{arr.unloadType}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<td>
+													<div>
+														<input type="text" ng-readonly="!arr.flag"
+															ng-style="$first ? { 'color': '#5EC5B1', 'font-weight': 'bold' } : {}"
+															ng-class="arr.flag ? 'input1' : 'reading'"
+															ng-model="arr.packingType" value='{{arr.packingType}}'
+															ng-blur="copyFields($index, arr)" />
+													</div>
+												</td>
+												<!-- <td hidden></td> -->
+												<!-- Manual Entries End -->
+											</tr>
+										</tbody>
+									</table>
+									<button class="btn btn-success btn-rounded w-md waves-effect waves-light"
+										ng-show="showUpdButton" ng-click="update()"
+										style="float: right; width:20%;">UPDATE</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+		</div>
+	</div>
+</div>

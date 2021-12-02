@@ -1,0 +1,19 @@
+<div class="col-md-12 col-lg-12" style="border:17px solid #A9DBD1">
+<div class="card" style="border: 0px">
+
+	<div class="card-title" style="padding-top: 10px;">
+		<b> Are you sure you want to Delete the GRN ({{grnItem.grnNo}}) of Item:{{" "+grnItem.itemMstId}}? </b>
+	</div>
+
+
+	<div class="card-body">
+		<div class="col-md-12 col-xs-12">
+			<div class="form-group pull-right">
+				<button type="submit" class="btn btn-default btn-success"
+					ng-click="close()">Cancel</button>
+				<button type="submit" class="btn btn-default btn-danger"
+					ng-click="delete()">Delete</button>
+			</div>
+		</div>
+	</div>
+</div>

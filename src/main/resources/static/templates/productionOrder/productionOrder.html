@@ -1,0 +1,211 @@
+<style>
+	input:focus {
+		border: 1px solid grey !important;
+	}
+
+	.input1 {
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		font-size: 12px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+	}
+
+	.reading {
+		border: 0px !important;
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		text-align: center !important;
+		font-size: 12px !important;
+	}
+
+	.reading:focus {
+		border: 0px !important;
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		text-align: center !important;
+		font-size: 12px !important;
+	}
+
+	.input1:focus,
+	.date1:focus {
+		width: 120px !important;
+		line-height: 30px !important;
+		border: 2.5px solid #ccc !important;
+		border-radius: 4px !important;
+
+	}
+
+	.date1 {
+		width: 120px !important;
+		line-height: 30px !important;
+		font-size: 12px !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+		background: #fff url(image/calendar_2.png) 97% 50% no-repeat !important;
+	}
+
+	.date1::-webkit-inner-spin-button {
+		display: none;
+	}
+
+	.date1::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
+
+	th,
+	td {
+		white-space: nowrap;
+	}
+</style>
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left"> Production  Orders</h4>
+						
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+
+			
+
+
+			<div class="row" >
+				<div class="col-12">
+					<div class="page-title-box">
+					 <div class="row" style="margin-bottom:10px">
+								<div class="col-8">
+					              <label for="search">Search:</label>
+					              <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
+					            </div>
+					            <div class="col-4 pull-right">
+					              <label for="search">items per page:</label>
+					              <input type="number" min="1" max="100" class="form-control" ng-model="vm.perPage">
+					            </div>
+           				 </div>
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box table-responsive">
+									<table class="table table-bordered" >
+										<thead>
+											<tr class="customTable">
+												<th>Serial No</th>
+												<th>Production Order </th>
+												<th>Sale Order No</th>
+												<th>UID</th>
+												<th>Model Code</th>
+												<th>Customer</th>
+												<th>Deal Start Date</th>
+												<th>Header</th>
+												<th> Oct</th>
+												<th> Finix Id</th>
+												<th> Action</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr dir-paginate="arr in prodOrders | filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
+										
+												<td>{{(vm.perPage*(vm.pageno-1))+($index+1)}}
+												<td>{{arr.prodOrdNo}} </td>
+												<td>
+															<span ng-show="!arr.edit">{{arr.salesOrdNo}}</span>
+															
+															<input ng-show="arr.edit" type="text"
+															ng-model="arr.salesOrdNo" class="f_left form-control" >
+															
+												
+												</td>
+												<td>
+													<span ng-show="!arr.edit"> {{arr.uid}}</span>
+															<input ng-show="arr.edit" type="text"
+															ng-model="arr.uid" class="f_left form-control" >
+												
+												 </td>
+												<td>
+													<span ng-show="!arr.edit"> {{arr.modelCode}} </span>
+													<input ng-show="arr.edit" type="text"
+													
+															ng-model="arr.modelCode" class="f_left form-control" >
+													
+												</td>
+												<td><span ng-show="!arr.edit"> {{arr.customerName}} </span>
+												
+														<input ng-show="arr.edit" type="text"
+														
+														ng-model="arr.customerName" class="f_left form-control" >
+												
+												
+												</td>
+												<td><span ng-show="!arr.edit"> {{arr.startDateIdeal|date:'dd-MM-yyyy'}} </span>
+												
+														<input ng-show="arr.edit" type="date"
+																
+																ng-model="arr.startDateIdeal" class="f_left form-control" >
+														
+												
+												</td>
+												<td><span ng-show="!arr.edit" >{{arr.header}}</span>
+														<input ng-show="arr.edit" type="text"
+																
+																ng-model="arr.header" class="f_left form-control" >
+														
+												
+												</td>
+												<td><span  ng-show="!arr.edit">{{arr.oct}}</span>
+													<input ng-show="arr.edit" type="text"
+																
+																ng-model="arr.oct" class="f_left form-control" >
+														
+												
+												 </td>
+												<td><span  ng-show="!arr.edit">{{arr.finixId}}</span> 
+													<input ng-show="arr.edit" type="text"
+																
+																ng-model="arr.finixId" class="f_left form-control" >
+													
+												
+												</td>
+												
+												<td>
+												<button ng-class="arr.active==1?'btn btn-success waves-effect waves-light':'btn btn-danger waves-effect waves-light'"  ng-click="changeStatus($index)" style="margin-right: 2px;" aria-hidden="true"><span  ng-show="arr.active==1">Active</span> <span  ng-show="arr.active==0">InActive</span></button>
+												
+													<button class="btn btn-primary waves-effect waves-light" ng-show="!arr.edit" ng-click="modify($index)" style="margin-right: 2px;" aria-hidden="true"><i class="fa fa-edit" aria-hidden="true"></i></button>
+													<button class="btn btn-success waves-effect waves-light" ng-show="arr.edit" ng-click="update($index, arr)" style="margin-right: 5px;" aria-hidden="false"><i class="fa fa-save" aria-hidden="true"></i></button>
+													
+												</td>
+											</tr>
+										</tbody>
+									</table>
+									  <dir-pagination-controls on-page-change="vm.pageChanged(newPageNumber)"  ></dir-pagination-controls>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		
+		
+
+
+
+
+		</div>s
+	</div>
+</div>

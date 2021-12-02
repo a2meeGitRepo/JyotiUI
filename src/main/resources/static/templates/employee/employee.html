@@ -1,0 +1,480 @@
+<style type="text/css">
+	input:focus {
+		border: 1px solid grey !important;
+	}
+
+	.date1 {
+		border: 1px solid #c4c4c4;
+		border-radius: 5px;
+		padding: 3px 5px;
+		height: 38px;
+		box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+		background: #fff url(../../image/calendar_2.png) 97% 50% no-repeat;
+	}
+
+	.date1::-webkit-inner-spin-button {
+		display: none;
+	}
+
+	.date1::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
+
+	.ng-hide.ng-hide-animate{
+    	display: none !important;
+	}
+</style>
+
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left"> Employees </h4>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+
+			<!-- start add  row -->
+			<div class="row top" ng-hide="employeeFormOpen || deptFormOpen || skillFormOpen">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+									<h4 class="m-t-0 header-title">Select Action:</h4>
+
+									<div class="row" style="margin-top: 2%">
+										<div class="col-sm-3 col-xs-3">
+											<button class="btn btn-warning btn-rounded w-md waves-effect waves-light"
+												style="width:100%;" ng-click="showEmployeeForm()"> New
+												Employee </button>
+										</div>
+										<div class="col-sm-3 col-xs-3"></div>
+										<div class="col-sm-3 col-xs-3">
+											<button class="btn btn-warning btn-rounded w-md waves-effect waves-light"
+												style="width:100%;" ng-click="showDeptForm()"> Add
+												Department </button>
+										</div>
+										<div class="col-sm-3 col-xs-3">
+											<button class="btn btn-warning btn-rounded w-md waves-effect waves-light"
+												style="width:100%;" ng-click="showSkillForm()"> Add
+												Skill </button>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row top" ng-show="isNewEmployee">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+									<h4 class="m-t-0 header-title"> Add a new Employee:</h4>
+
+									<form name="myForm">
+										<div class="row" style="margin-top:2%">
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Title: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> First Name: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Last Name: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Deparment: <span
+														style="color:red;">*</span></label>
+											</div>
+										</div>
+
+										<div class="row" style="margin-top:1%">
+											<div class="col-sm-3 col-xs-3">
+												<select class="form-control f_left" ng-model="title" required>
+													<option value="" disabled selected>Select Title</option>
+													<option ng-repeat="opts in titles track by $index"
+														value="{{opts.titleName}}">
+														{{opts.titleName}} </option>
+												</select>
+												<!-- <span class="error" ng-show="myForm.titles.$error.required">
+																		Required!
+																	</span> -->
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<input type="text"
+													onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 65 && event.charCode <= 122"
+													ng-model="firstName" class="f_left form-control" required>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<input type="text"
+													onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 65 && event.charCode <= 122"
+													ng-model="lastName" class="f_left form-control" required>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<select class="form-control f_left" ng-model="dept" required>
+													<option value="" disabled selected>Select Department</option>
+													<option ng-repeat="opts in depts track by $index"
+														value="{{opts.deptName}}">
+														{{opts.deptName}} </option>
+												</select>
+												<!-- <span class="error" ng-show="myForm.titles.$error.required">
+																		Required!
+																	</span> -->
+											</div>
+										</div>
+
+										<div class="row" style="margin-top:2%">
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Gender: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Designation: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Skill: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Email: <span
+														style="color:red;">*</span></label>
+											</div>
+										</div>
+
+										<div class="row" style="margin-top:1%">
+											<div class="col-sm-3 col-xs-3">
+												<select class="form-control f_left" ng-model="gender" required>
+													<option value="" disabled selected>Select Gender</option>
+													<option value="male">Male</option>
+													<option value="female">Female</option>
+												</select>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<input type="text"
+													onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 65 && event.charCode <= 122 || event.charCode==32"
+													ng-model="designation" class="f_left form-control" required>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<select class="form-control f_left" ng-model="skill" required>
+													<option value="" disabled selected>Select Employee Skill</option>
+													<option ng-repeat="opts in skills track by $index"
+														value="{{opts.skillName}}">
+														{{opts.skillName}}
+													</option>
+												</select>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<input type="email" name="emailIn" ng-model="emailId"
+													class="f_left form-control" required>
+												<span class="error" ng-show="myForm.emailId.$error.email">
+													Not valid email!
+												</span>
+											</div>
+										</div>
+
+										<div class="row" style="margin-top:2%">
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Contact No.: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Date of Birth: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Date of Joining: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Nationality: <span
+														style="color:red;">*</span></label>
+											</div>
+										</div>
+
+										<div class="row" style="margin-top:1%">
+											<div class="col-sm-3 col-xs-3">
+												<input type="text"
+													onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+													maxlength="10" ng-model="contactNo" class="f_left form-control"
+													required>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<input type="date" class="date1" ng-model="dateOfBirth"
+													class="f_left form-control" required>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<input type="date" class="date1" ng-model="dateOfJoining"
+													class="f_left form-control">
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<select class="form-control f_left" ng-model="nationality" required>
+													<option value="" disabled selected>Select Nationality</option>
+													<option value="Indian">Indian</option>
+													<option value="Others">Others</option>
+												</select>
+											</div>
+
+										</div>
+
+										<div class="row" style="margin-top:2%">
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Blood Group: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Aadhar No.: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Physically Handicapped: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> RF Id:<span
+														style="color:red;">*</span></label>
+											</div>
+										</div>
+
+										<div class="row" style="margin-top:1%">
+											<div class="col-sm-3 col-xs-3">
+												<input type="text" maxlength="5" ng-model="bloodGroup"
+													class="f_left form-control" required>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<input type="text"
+													onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+													maxlength="12" ng-model="aadharNo" class="f_left form-control"
+													required>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<select class="form-control f_left" ng-model="isHandicap" required>
+													<option value="" disabled selected>Select</option>
+													<option value="Yes">Yes</option>
+													<option value="No">No</option>
+												</select>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<input type="text" maxlength="10" ng-model="rfId"
+													class="f_left form-control">
+											</div>
+										</div>
+
+										<div class="row" style="margin-top:2%">
+											<div class="col-sm-3 col-xs-3"></div>
+											<div class="col-sm-3 col-xs-3"></div>
+											<div class="col-sm-3 col-xs-3">
+												<button
+													class="btn btn-primary btn-rounded w-md waves-effect waves-light"
+													style="width:100%;" ng-click="cancelAdd()"> Cancel </button>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<button
+													class="btn btn-success btn-rounded w-md waves-effect waves-light"
+													style="width:100%;" ng-disabled="myForm.$invalid" ng-show="showBtn"
+													ng-click="addEmployee()">
+													Add
+													Employee </button>
+												<button
+													class="btn btn-success btn-rounded w-md waves-effect waves-light"
+													style="width:100%;" ng-disabled="myForm.$invalid" ng-hide="showBtn"
+													ng-click="updateEmployee()">
+													Update Employee </button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row top" ng-show="isNewDept">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+									<h4 class="m-t-0 header-title"> Add a new Department:</h4>
+
+									<form name="myForm2">
+										<div class="row" style="margin-top:2%">
+											<div class="col-sm-3 col-xs-3">
+												<input name="deptList" type="text" placeholder="Enter Department Name"
+													ng-model="newDeptName" class="form-control" required>
+											</div>
+
+											<div class="col-sm-1 col-xs-3">
+												<button class="btn btn-success waves-effect waves-light"
+													style="width:100%;" ng-disabled="myForm2.$invalid"
+													ng-click="addDept()"> Add
+												</button>
+											</div>
+
+											<div class="col-sm-8">
+												<table class="table table-bordered" style="width:100%;margin:0 auto">
+													<thead>
+														<tr class="customTable">
+															<th> # </th>
+															<th> Departments </th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr ng-repeat="arr in depts track by $index">
+															<td>{{$index + 1}}</td>
+															<td>{{arr.deptName}}</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+
+										<div class="row" style="margin-top:2%">
+											<div class="col-sm-10 col-xs-10"></div>
+											<div class="col-sm-2 col-xs-3">
+												<button class="btn btn-info btn-rounded w-md waves-effect waves-light"
+													style="width:100%;" ng-click="cancelAdd()">
+													Back </button>
+											</div>
+										</div>
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row top" ng-show="isNewSkill">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+									<h4 class="m-t-0 header-title"> Add a new Skill:</h4>
+
+									<form name="myForm3">
+										<div class="row" style="margin-top:2%">
+
+											<div class="col-sm-3 col-xs-3">
+												<input name="skillList" type="text" placeholder="Enter Skill Name"
+													ng-model="newSkillName" class="form-control" required>
+											</div>
+
+											<div class="col-sm-1 col-xs-3">
+												<button class="btn btn-success waves-effect waves-light"
+													style="width:100%;" ng-disabled="myForm3.$invalid"
+													ng-click="addSkill()"> Add </button>
+											</div>
+
+											<div class="col-sm-8">
+												<table class="table table-bordered" style="width:100%;margin:0 auto">
+													<thead>
+														<tr class="customTable">
+															<th> # </th>
+															<th> Skills </th>
+														</tr>
+													</thead>
+													<tbody>
+														<tr ng-repeat="arr in skills track by $index">
+															<td>{{$index + 1}}</td>
+															<td>{{arr.skillName}}</td>
+														</tr>
+													</tbody>
+												</table>
+											</div>
+										</div>
+
+										<div class="row" style="margin-top:2%">
+											<div class="col-sm-10 col-xs-10"></div>
+											<div class="col-sm-2 col-xs-3">
+												<button class="btn btn-info btn-rounded w-md waves-effect waves-light"
+													style="width:100%;" ng-click="cancelAdd()"> Back </button>
+											</div>
+										</div>
+
+									</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-show="employeeTable">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box table-responsive">
+									<table class="table table-bordered" id="tbl_grn" datatable="ng"
+										dt-column-defs="dtColumnDefs" dt-options="dtOptions">
+										<thead>
+											<tr class="customTable">
+												<th>#</th>
+												<th> Employee Code </th>
+												<th> Name </th>
+												<th> Department </th>
+												<th> Designation </th>
+												<th> Skill </th>
+												<th> Modify </th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr ng-repeat="arr in employees track by $index">
+												<td> {{$index + 1}} </td>
+												<td> {{arr.empCode}} </td>
+												<td> {{arr.firstName + " " + arr.lastName}} </td>
+												<td> {{arr.deptMst.deptName}} </td>
+												<td> {{arr.designation}} </td>
+												<td> {{arr.skillMst.skillName}} </td>
+												<td>
+													<button class="btn btn-primary" ng-hide="arr.flag"
+														ng-click="modify($index)">MODIFY</button>
+													<button class="btn btn-success" ng-disabled="updBtn"
+														ng-show="arr.flag"
+														ng-click="updateEmployeeForm($index, arr)">UPD</button>
+													<button class="btn btn-danger" ng-show="arr.flag"
+														ng-click="deleteEmp($index, arr)">DEL</button>
+												</td>
+											</tr>
+										</tbody>
+
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+
+
+
+		</div>
+	</div>
+</div>

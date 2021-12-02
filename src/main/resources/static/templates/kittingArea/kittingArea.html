@@ -1,0 +1,128 @@
+<style>
+	input:focus {
+		border: 1px solid grey !important;
+	}
+
+	.input1 {
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		font-size: 12px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+	}
+
+	.reading {
+		border: 0px !important;
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		text-align: center !important;
+		font-size: 12px !important;
+	}
+
+	.reading:focus {
+		border: 0px !important;
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		text-align: center !important;
+		font-size: 12px !important;
+	}
+
+	.input1:focus,
+	.date1:focus {
+		width: 120px !important;
+		line-height: 30px !important;
+		border: 2.5px solid #ccc !important;
+		border-radius: 4px !important;
+
+	}
+
+	.date1 {
+		width: 120px !important;
+		line-height: 30px !important;
+		font-size: 12px !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+		background: #fff url(image/calendar_2.png) 97% 50% no-repeat !important;
+	}
+
+	.date1::-webkit-inner-spin-button {
+		display: none;
+	}
+
+	.date1::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
+
+	th,
+	td {
+		white-space: nowrap;
+	}
+</style>
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left"> Kitting Area </h4>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+
+			<!-- start add  row -->
+			<div class="row" ng-show="showKitStock">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box">
+									<div class="row">
+										<div class="col-md-12 text-center">
+											<h4 class="m-t-0 header-title">Assemblies stock in Kitting Area:</h4>
+										</div>
+									</div>
+									<div class="row table-responsive">
+										<table class="table table-bordered" datatable="ng">
+											<thead>
+												<tr class="customTable">
+													<th> # </th>
+													<th> Model Code </th>
+													<th> Assembly Code</th>
+													<th> Available Qty.</th>
+													<th> Picked By </th>
+												</tr>
+											</thead>
+
+											<tbody>
+												<tr ng-repeat="arr in kitStock track by $index">
+													<td> {{$index + 1}} </td>
+													<td> {{arr.pickingMst.modelCode}} </td>
+													<td> {{arr.assemblyMst.assemblyCode}} </td>
+													<td> {{arr.remQty}} </td>
+													<td> {{arr.pickingMst.employee.firstName+" "+arr.pickingMst.employee.lastName}} </td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+		</div>
+	</div>
+</div>

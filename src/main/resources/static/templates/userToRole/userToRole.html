@@ -1,0 +1,112 @@
+<style>
+	input:focus {
+		border: 1px solid grey !important;
+	}
+</style>
+
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left"> User to Role </h4>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+
+									<h4 class="m-t-0 header-title">Assign User to Roles:</h4>
+
+									<div class="row">
+										<div class="col-md-12 text-center">
+											<label class="control-label">Select Role:<span
+													style="color: red;">*</span></label>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-md-12" style="margin-left:40%; margin-top: 1%;">
+											<select class="form-control" style="width:20%; height: 100%;"
+												id="selectUser" ng-model="selectUser"
+												ng-change="vm.changeUser(selectUser);">
+												<option value="selectUser">Select User</option>
+												<option ng-repeat="opts in vm.usersList track by $index"
+													value="{{opts}}">{{opts.id}} </option>
+											</select>
+										</div>
+									</div>
+
+									<div class="row" style="width: 65%;margin: 15px auto;">
+										<div class="col-sm-5">
+											<table class="table table-bordered">
+												<thead>
+													<tr class="customTable">
+														<th>#</td>
+														<th>Role</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="arr in vm.tempRolesList track by $index">
+														<td><input type="checkbox" ng-checked="arr.select"
+																ng-click="arr.select = !arr.select"></td>
+														<td>{{arr.roleName}}</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										<div class="col-sm-2" style="text-align:center;padding: 0 5.6%;">
+											<button class="btn btn-success waves-effect waves-light"
+											ng-click="vm.assignRole();"><i class="fa fa-share"
+													aria-hidden="true"></i></button><br /><br />
+											<button class="btn btn-info waves-effect waves-light"
+												style="transform: scaleY(-1);"
+												ng-click="vm.removeRole();"><i class="fa fa-reply"
+													aria-hidden="true"></i></button>
+										</div>
+										<div class="col-sm-5">
+											<table class="table table-bordered">
+												<thead>
+													<tr class="customTable">
+														<th>#</td>
+														<th>Name</td>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="arr in vm.userRolesList track by $index">
+														<td><input type="checkbox" ng-checked="arr.select"
+																ng-click="arr.select = !arr.select"></td>
+														<td>{{arr.roleName}}</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+
+
+
+
+		</div>
+	</div>
+</div>

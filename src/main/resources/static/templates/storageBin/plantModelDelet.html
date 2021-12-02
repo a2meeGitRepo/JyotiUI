@@ -1,0 +1,19 @@
+<div class="modal-header">
+	<h3 class="modal-title" id="modal-title">
+		<dl class="dl-horizontal text-center">
+			<dt style="text-align: center">Delete</dt>
+			<dd style="margin: 0px">{{vm.items.plant_code}} - {{vm.items.plant_name}}</dd>
+		</dl>
+	</h3>
+</div>
+<div class="modal-body" id="modal-body">
+	<dl class="dl-horizontal">
+		<label>Are you sure to delete? </label>		
+		
+	</dl>
+
+</div>
+<div class="modal-footer">
+	<button class="btn btn-danger" type="button" ng-click="vm.delet(vm.items)">Delete</button>
+	<button class="btn btn-warning" type="button" ng-click="vm.cancel()">Cancel</button>
+</div>

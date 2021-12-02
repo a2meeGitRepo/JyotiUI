@@ -1,0 +1,191 @@
+<style type="text/css">
+	input:focus {
+		border: 1px solid grey !important;
+	}
+
+	.date1 {
+		width: 200px !important;
+		font-size: 12px !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+		background: #fff url(image/calendar_2.png) 97% 50% no-repeat !important;
+	}
+
+	.date1::-webkit-inner-spin-button {
+		display: none;
+	}
+
+	.date1::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
+</style>
+
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left">Picking Report</h4>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+
+			<!-- start row -->
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+									<div class="row">
+										<div class="col-md-12 text-center">
+											<img src="../../image/quarantine.png" style="width: 50px; height: 50px;" />
+										</div>
+									</div>
+									<h4 class="m-t-0 header-title">Search By:</h4>
+									
+									<div class="row" style="margin-top:1%;">
+										<div class="col-sm-3 col-xs-3">
+											<input name="modelList" type="text" placeholder="Enter Model Name"
+												ng-model="selectedModel" ng-blur="getPOByModel()"
+												uib-typeahead="model as model for model in vm.models | filter:$viewValue | limitTo:8"
+												typeahead-no-results="modelLists" class="form-control typeahead-demo">
+										</div>
+										
+										<div class="col-sm-3 col-xs-3" ng-show="poSelect">
+											<input name="pickingList" type="text" placeholder="Enter PO Number"
+												ng-model="selectedPicking"
+												uib-typeahead="picking as picking.proOrdNo for picking in vm.pickings | filter:$viewValue | limitTo:8"
+												typeahead-no-results="pickingLists" class="form-control typeahead-demo">
+										</div>
+
+										<div class="col-sm-1 col-xs-3" ng-show="poSelect">
+											<button class="btn btn-success btn-rounded waves-effect waves-light"
+												style="width:100%;" ng-click="addPicking()"> Add </button>
+										</div>
+
+										<div class="col-sm-5" ng-show="poSelect">
+											<table class="table table-bordered" style="width:100%;margin:0 auto">
+												<thead>
+													<tr class="customTable">
+														<th> # </th>
+														<th> PO Number </th>
+														<th> Model Code </th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="arr in pickingTypes track by $index">
+														<td>{{$index + 1}}</td>
+														<td>{{arr.proOrdNo}}</td>
+														<td>{{arr.modelCode}} <input type="image" class="btn"
+																src="../../image/close-window.png"
+																style="height:25px;width:25px;padding:0;"
+																ng-click="removePicking($index)"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+										
+									</div>
+
+
+									<div class="row" style="margin-top:1%;">
+										<div class="col-sm-1" style="padding-top: 10px">
+											<label class="control-form">Date:<span style="color: red;">*</span></label>
+										</div>
+										<div class="col-sm-3">
+											<input type="date" style="width: 170px !important;" class="date1"
+												ng-model="date" ng-change="vm.generateReport();">
+										</div>
+									</div>
+
+									<h4 class="m-t-0 header-title" style="margin-top:2% !important;">Or:</h4>
+
+									<div class="row" style="margin-top: 1%;">
+										<div class="col-sm-2" style="padding-top: 10px">
+											<label class="control-form"> Start Date:<span
+													style="color: red;">*</span></label>
+										</div>
+										<div class="col-sm-3">
+											<input type="date" style="width: 170px !important;" class="date1"
+												ng-model="fromDate" ng-change="vm.generateReportByDateRange();">
+										</div>
+										<div class="col-sm-2" style="padding-top: 10px">
+											<label class="control-form"> End Date:<span
+													style="color: red;">*</span></label>
+										</div>
+										<div class="col-sm-3">
+											<input type="date" style="width: 170px !important;" class="date1"
+												ng-model="toDate" ng-change="vm.generateReportByDateRange();">
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box table-responsive">
+									<table class="table table-bordered" datatable="ng" dt-column-defs="dtColumnDefs"
+										dt-options="dtOptions" style="width:100%;margin:0 auto">
+										<thead>
+											<tr class="customTable">
+												<th>#</th>
+												<th>Component Code</th>
+												<th>Plant Code</th>
+												<th>Location</th>
+												<th>Issue Qty</th>
+												<th>PO Number</th>
+												<th>Movement</th>
+												<th>Reservation No.</th>
+												<th>Item No.</th>
+												<th>Posting No.</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="arr in vm.reportsList track by $index">
+												<td>{{$index + 1}}</td>
+												<td>{{arr.compCode}}</td>
+												<td>{{arr.plantCode}}</td>
+												<td>{{arr.locationCode}}</td>
+												<td><b>{{arr.issueQty}}</b></td>
+												<td>{{arr.proOrdNo}}</td>
+												<td>{{arr.movement}}</td>
+												<td>{{arr.reservationNo}}</td>
+												<td>{{arr.itemNo}}</td>
+												<td>{{arr.postingDocNo}}</td>
+											</tr>
+										</tbody>
+									</table>
+
+								</div>
+								<button class="btn btn-info w-md btn-rounded waves-effect waves-light"
+									ng-show="vm.reportsList.length>0" style="float: right; width:20%;"
+									ng-json-export-excel data="vm.reportsList" report-fields="vm.labels"
+									filename="'Picking Report'">Export</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+</div>

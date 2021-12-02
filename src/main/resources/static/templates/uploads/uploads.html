@@ -1,0 +1,361 @@
+<style>
+	input:focus {
+		border: 1px solid grey !important;
+	}
+
+	.input1 {
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		font-size: 12px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+	}
+
+	.reading{
+		border: 0px !important;
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		text-align: center !important;
+		font-size: 12px !important;
+	}
+	
+	.reading:focus{
+		border: 0px !important;
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		text-align: center !important;
+		font-size: 12px !important;
+	}
+
+	.input1:focus,
+	.date1:focus {
+		width: 120px !important;
+		line-height: 30px !important;
+		border: 2.5px solid #ccc !important;
+		border-radius: 4px !important;
+
+	}
+
+	.date1 {
+		width: 120px !important;
+		line-height: 30px !important;
+		font-size: 12px !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+		background: #fff url(image/calendar_2.png) 97% 50% no-repeat !important;
+	}
+
+	.date1::-webkit-inner-spin-button {
+		display: none;
+	}
+
+	.date1::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
+
+	th,
+	td {
+		white-space: nowrap;
+	}
+</style>
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left"> File Uploads </h4>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+
+			<!-- start add  row -->
+			<div class="row top">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+									<h4 class="m-t-0 header-title">Purchase Order Upload:</h4>
+									<div class="row">
+										<div class="col-sm-2 col-xs-2">
+											<label class="control-form" style="padding-top: 9px;"> Select Excel File:
+												<span style="color:red;">*</span></label>
+										</div>
+										<div class="col-sm-4 col-xs-4">
+											<input type="file" id="fileAsset1" file-model="myFile" ng-model="file1"
+												onchange="angular.element(this).scope().enable()" class="form-control"
+												ng-required="true" />
+										</div>
+										<div class="col-sm-2 col-xs-4">
+											<button class="btn btn-primary btn-rounded w-md waves-effect waves-light"
+												style="width:100%;" ng-click="vm.uploadPOCsv();"> Upload PO </button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+
+									<h4 class="m-t-0 header-title">Storage Bin Upload:</h4>
+									<div class="row">
+										<div class="col-sm-2 col-xs-2">
+											<label class="control-form" style="padding-top: 9px;"> Select CSV File:
+												<span style="color:red;">*</span></label>
+										</div>
+										<div class="col-sm-4 col-xs-4">
+											<input type="file" id="fileAsset2" file-model="myFile" ng-model="file2"
+												onchange="angular.element(this).scope().enable()" class="form-control"
+												ng-required="true" />
+										</div>
+										<div class="col-sm-2 col-xs-4">
+											<button class="btn btn-primary btn-rounded w-md waves-effect waves-light"
+												style="width:100%;" ng-click="vm.uploadStorageCsv();"> Upload Storage </button>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+
+									<h4 class="m-t-0 header-title">Old Stock Upload:</h4>
+									<div class="row">
+										<div class="col-sm-2 col-xs-2">
+											<label class="control-form" style="padding-top: 9px;"> Select Excel File:
+												<span style="color:red;">*</span></label>
+										</div>
+										<div class="col-sm-4 col-xs-4">
+											<input type="file" id="fileAsset6" file-model="myFile" ng-model="file6"
+												onchange="angular.element(this).scope().enable()" class="form-control"
+												ng-required="true" />
+										</div>
+										<div class="col-sm-2 col-xs-4">
+											<button class="btn btn-primary btn-rounded w-md waves-effect waves-light"
+												style="width:100%;" ng-click="vm.uploadOldStock();"> Upload Stock </button>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+
+									<h4 class="m-t-0 header-title"> Item  Upload:</h4>
+									<div class="row">
+										<div class="col-sm-2 col-xs-2">
+											<label class="control-form" style="padding-top: 9px;"> Select Excel File:
+												<span style="color:red;">*</span></label>
+										</div>
+										<div class="col-sm-4 col-xs-4">
+											<input type="file" id="fileAssetItem" file-model="myFile" ng-model="fileItem"
+												onchange="angular.element(this).scope().enable()" class="form-control"
+												ng-required="true" />
+										</div>
+										<div class="col-sm-2 col-xs-4">
+											<button class="btn btn-primary btn-rounded w-md waves-effect waves-light"
+												style="width:100%;" ng-click="vm.uploadItems();"> Upload Items </button>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+
+									<h4 class="m-t-0 header-title">Bill of Material Upload:</h4>
+									<div class="row">
+										<div class="col-sm-2 col-xs-2">
+											<label class="control-form" style="padding-top: 9px;"> Select Excel File:
+												<span style="color:red;">*</span></label>
+										</div>
+										<div class="col-sm-4 col-xs-4">
+											<input type="file" id="fileAsset3" file-model="myFile" ng-model="file3"
+												onchange="angular.element(this).scope().enable()" class="form-control"
+												ng-required="true" />
+										</div>
+										<div class="col-sm-2 col-xs-4">
+											<button class="btn btn-primary btn-rounded w-md waves-effect waves-light"
+												style="width:100%;" ng-click="vm.uploadBomCsv();"> Upload BOM </button>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+
+									<h4 class="m-t-0 header-title">Model Plan Upload:</h4>
+									<div class="row">
+										<div class="col-sm-2 col-xs-2">
+											<label class="control-form" style="padding-top: 9px;"> Select Excel File:
+												<span style="color:red;">*</span></label>
+										</div>
+										<div class="col-sm-4 col-xs-4">
+											<input type="file" id="fileAsset4" file-model="myFile" ng-model="file4"
+												onchange="angular.element(this).scope().enable()" class="form-control"
+												ng-required="true" />
+										</div>
+										<div class="col-sm-2 col-xs-4">
+											<button class="btn btn-primary btn-rounded w-md waves-effect waves-light"
+												style="width:100%;" ng-click="vm.uploadModelPlanCsv();"> Upload Model Plan </button>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+					<div class="col-12">
+						<div class="page-title-box">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card-box">
+	
+										<h4 class="m-t-0 header-title">Annual Plan Upload:</h4>
+										<div class="row">
+											<div class="col-sm-2 col-xs-2">
+												<label class="control-form" style="padding-top: 9px;"> Select Excel File:
+													<span style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-4 col-xs-4">
+												<input type="file" id="fileAsset5" file-model="myFile" ng-model="file5"
+													onchange="angular.element(this).scope().enable()" class="form-control"
+													ng-required="true" />
+											</div>
+											<div class="col-sm-2 col-xs-4">
+												<button class="btn btn-primary btn-rounded w-md waves-effect waves-light"
+													style="width:100%;" ng-click="vm.uploadAnnualPlan();"> Upload Annual Plan </button>
+											</div>
+										</div>
+	
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+				
+				<div class="row">
+					<div class="col-12">
+						<div class="page-title-box">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card-box">
+	
+										<h4 class="m-t-0 header-title">Reservation and Item No Upload:</h4>
+										<div class="row">
+											<div class="col-sm-2 col-xs-2">
+												<label class="control-form" style="padding-top: 9px;"> Select Excel File:
+													<span style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-4 col-xs-4">
+												<input type="file" id="fileAsset7" file-model="myFile" ng-model="file7"
+													onchange="angular.element(this).scope().enable()" class="form-control"
+													ng-required="true" />
+											</div>
+											<div class="col-sm-2 col-xs-4">
+												<button class="btn btn-primary btn-rounded w-md waves-effect waves-light"
+													style="width:100%;" ng-click="vm.uploadReservationItemNo();"> Upload Reservation and Item No </button>
+											</div>
+										</div>
+	
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+	<div class="row">
+					<div class="col-12">
+						<div class="page-title-box">
+							<div class="row">
+								<div class="col-md-12">
+									<div class="card-box">
+	
+										<h4 class="m-t-0 header-title">Supplier Components Upload:</h4>
+										<div class="row">
+											<div class="col-sm-2 col-xs-2">
+												<label class="control-form" style="padding-top: 9px;"> Select Excel File:
+													<span style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-4 col-xs-4">
+												<input type="file" id="fileAsset8" file-model="myFile" ng-model="file7"
+													onchange="angular.element(this).scope().enable()" class="form-control"
+													ng-required="true" />
+											</div>
+											<div class="col-sm-2 col-xs-4">
+												<button class="btn btn-primary btn-rounded w-md waves-effect waves-light"
+													style="width:100%;" ng-click="vm.uploadSupplierComponents();"> Upload  </button>
+											</div>
+										</div>
+	
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+		</div>
+	</div>
+</div>

@@ -1,0 +1,187 @@
+<style>
+	.date1 {
+		border: 1px solid #c4c4c4;
+		border-radius: 5px;
+		padding: 3px 5px;
+		box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+		background: #fff url(../../image/calendar_2.png) 97% 50% no-repeat;
+	}
+
+	.date1::-webkit-inner-spin-button {
+		display: none;
+	}
+
+	.date1::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
+
+	.imageButton {
+		border: 1px solid #c4c4c4;
+		border-radius: 5px;
+		padding: 3px 5px;
+		box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+	}
+
+	.imageButton:hover {
+		border: 2px solid #c4c4c4;
+	}
+
+	.imageButton:disabled {
+		opacity: 0.50;
+		cursor: not-allowed;
+		box-shadow: none;
+		pointer-events: none;
+	}
+</style>
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left"> Attendance </h4>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+
+			<div class="row top">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+									<h4 class="m-t-0 header-title">Select Department and Date:</h4>
+									<form name="myForm">
+										<div class="row" style="margin-top: 2%">
+											<div class="col-sm-3 col-xs-3">
+												<label> Department: </label>
+												<select name="department" class="form-control f_left"
+													ng-model="selectedDept" style="height: 60% !important;" required>
+													<option value="" disabled selected>Select Department</option>
+													<option ng-repeat="opts in depts track by $index"
+														value="{{opts.deptName}}">
+														{{opts.deptName}} </option>
+												</select>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label> Date: </label>
+												<input type="date" name="date" class="date1"
+													style="height: 60% !important;" ng-model="selectedDate"
+													class="f_left form-control" required>
+											</div>
+											<div class="col-sm-3 col-xs-3"></div>
+											<div class="col-sm-3 col-xs-3">
+												<button
+													class="btn btn-warning btn-rounded w-md waves-effect waves-light"
+													style="margin-top: 15px;width:100%;"
+													ng-click="showAttendanceList()"> Show Attendance </button>
+											</div>
+										</div>
+										</form>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-show="showTableData">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box table-responsive">
+									<div class="row">
+										<div class="col-sm-12 header-name text-center" ng-show="showBtns">
+											<label><b>Action: </b></label>
+											<input type="image" class="imageButton"
+												style="height:68%; width:6%; margin-right: 5px;"
+												src="../../image/Batch_Assign.svg" ng-click="multiPresent()" />
+											<input type="image" class="imageButton" style="height:68%; width:6%;"
+												src="../../image/Out_of_office.jpg" ng-click="multiAbsent()" />
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12">
+											<table class="table table-bordered" id="tbl_grn" datatable="ng"
+												dt-column-defs="dtColumnDefs" dt-options="dtOptions">
+												<thead>
+													<tr class="customTable">
+														<th>#</th>
+														<th> Employee Code </th>
+														<th> Employee Name </th>
+														<th> Status </th>
+														<th> <input class="c_check" type="checkbox"
+																ng-model="vm.selectAllChk" ng-click="selectAllTable()">
+															<br /> Select </th>
+														<th> In Time </th>
+														<th> Out Time </th>
+														<th> Set Attendance Time</th>
+													</tr>
+												</thead>
+
+												<tbody>
+													<tr ng-repeat="arr in employees track by $index">
+														<td> {{$index + 1}} </td>
+														<td> {{arr.empCode}} </td>
+														<td> {{arr.firstName + " " + arr.lastName}} </td>
+														<td ng-style="arr.style"> <b>{{arr.status}}</b> </td>
+														<td> <input class="c_check" type="checkbox"
+																ng-checked="arr.check"
+																ng-click="showPresentBtn($index, arr)"> </td>
+														<td><span ng-show="!arr.editing">
+																{{arr.inTime | date:"hh:mm a"}}
+															</span><input type="time" ng-show="arr.editing"
+																ng-model="arr.editInTime" /></td>
+														<td><span ng-show="!arr.editing">
+																{{arr.outTime | date:"hh:mm a"}}
+															</span><input type="time" ng-show="arr.editing"
+																ng-model="arr.editOutTime" /></td>
+														<td>
+															<input type="image" class="imageButton"
+																style="height:36px;width:30px;padding:0px;"
+																src="../../image/check-in-512.png"
+																ng-click="present($index, arr)"
+																ng-disabled="isToday || !arr.present" />
+															<input type="image" class="imageButton"
+																style="height:36px;width:30px;padding:0px;"
+																src="../../image/check-out-512.png"
+																ng-click="leaving($index, arr)"
+																ng-disabled="isToday || arr.present || arr.left" />
+															<input type="image" class="imageButton"
+																style="height:36px;width:30px;padding:0px;"
+																src="../../image/126794.svg"
+																ng-click="edit($index, arr)" ng-disabled="!arr.left"
+																ng-show="arr.edit" />
+															<input type="image" class="imageButton"
+																style="height:36px;width:30px;padding:0px;"
+																src="../../image/148730.svg"
+																ng-click="save($index, arr)" ng-disabled="!arr.left"
+																ng-show="!arr.edit" />
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+
+
+
+
+
+
+			</div>
+		</div>
+	</div>

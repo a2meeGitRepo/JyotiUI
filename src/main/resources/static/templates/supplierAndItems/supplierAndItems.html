@@ -1,0 +1,216 @@
+<style>
+	input:focus {
+		border: 1px solid grey !important;
+	}
+
+	.input1 {
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		font-size: 12px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+	}
+
+	.reading {
+		border: 0px !important;
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		text-align: center !important;
+		font-size: 12px !important;
+	}
+
+	.reading:focus {
+		border: 0px !important;
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		text-align: center !important;
+		font-size: 12px !important;
+	}
+
+	.input1:focus,
+	.date1:focus {
+		width: 120px !important;
+		line-height: 30px !important;
+		border: 2.5px solid #ccc !important;
+		border-radius: 4px !important;
+
+	}
+
+	.date1 {
+		width: 120px !important;
+		line-height: 30px !important;
+		font-size: 12px !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+		background: #fff url(image/calendar_2.png) 97% 50% no-repeat !important;
+	}
+
+	.date1::-webkit-inner-spin-button {
+		display: none;
+	}
+
+	.date1::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
+
+	th,
+	td {
+		white-space: nowrap;
+	}
+</style>
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left"> Supplier Items</h4>
+						
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+
+			
+
+			<div class="row" >
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box text-center">
+									<div class="row" style="margin-top: 2%; margin-right: 7%;">
+											<div class="form-group col-sm-3 col-xs-3">
+															<select class="form-control f_left" ng-model="supplier" ng-change="getSupplierComponant(supplier)" required>
+																<option value="" disabled selected>Select Supplier</option>
+																<option ng-repeat="opts in suppliers"
+																	value="{{opts}}">{{opts.supplierCode}}  </option>
+															 </select>
+											</div>	
+											<div class="form-group col-sm-3 col-xs-3" ng-show="addButtonn">
+													<button class="btn btn-success waves-effect waves-light" ng-click="addNew()" style="margin-right: 5px;" aria-hidden="false">Add New</button>
+															
+											</div>	
+										<div class="col-sm-3 col-xs-3" ng-show="addNewTab">
+											<input name="itemList" type="text" placeholder="Enter Item Name"
+												ng-model="selectedItem" ng-disabled="isBinSelected"
+												uib-typeahead="item as item.id for item in items | filter:$viewValue | limitTo:8"
+												typeahead-no-results="itemLists" class="form-control typeahead-demo">
+										</div>
+											
+											<div class="form-group col-sm-3 col-xs-3" ng-show="addNewTab">
+													<button class="btn btn-success waves-effect waves-light" ng-click="addComponatnt()" style="margin-right: 5px;" aria-hidden="false">Add </button>
+															
+											</div>	
+									</div>		
+									<div class="row" style="margin-top: 2%; margin-right: 7%;">
+									<div class="form-group col-sm-6 col-xs-6">
+												<table class="table table-bordered" >
+														
+																
+														<thead>
+															<tr class="customTable">
+																<th>Item Code</th>
+																<th>Item Details</th>
+																
+																<th> Action</th>
+															</tr>
+														</thead>
+				
+														<tbody>
+															<tr ng-repeat="arr in supplierComponants ">
+																<td>{{arr.itemMst.id}}</td>
+																<td>{{arr.itemMst.itemDtl}} </td>
+																
+																<td>
+																	<button class="btn btn-primary waves-effect waves-light" ng-show="!arr.edit" ng-click="modify($index)" style="margin-right: 2px;" aria-hidden="true"><i class="fa fa-edit" aria-hidden="true"></i></button>
+																	<button class="btn btn-success waves-effect waves-light" ng-show="arr.edit" ng-click="update($index, arr)" style="margin-right: 5px;" aria-hidden="false"><i class="fa fa-save" aria-hidden="true"></i></button>
+																	
+																</td>
+															</tr>
+														</tbody>
+													</table>
+										</div>				
+													
+									
+									</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> 
+
+			<div class="row" >
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box text-center">
+									<div class="row" style="margin-top: 2%; margin-right: 7%;">
+												
+										<div class="col-sm-3 col-xs-3" >
+											<input name="itemList" type="text" placeholder="Enter Item Name"
+												ng-model="selectedItemForCheck" ng-disabled="isBinSelected"
+												uib-typeahead="item as item.id for item in items | filter:$viewValue | limitTo:8"
+												typeahead-no-results="itemLists" class="form-control typeahead-demo">
+										</div>
+											
+											<div class="form-group col-sm-3 col-xs-3">
+													<button class="btn btn-success waves-effect waves-light" ng-click="check()" style="margin-right: 5px;" aria-hidden="false">Check </button>
+															
+											</div>	
+									</div>		
+									<div class="row" style="margin-top: 2%; margin-right: 7%;">
+									<div class="form-group col-sm-6 col-xs-6">
+												<table class="table table-bordered" >
+														
+																
+														<thead>
+															<tr class="customTable">
+																<th>Supplier Code</th>
+																<th>Supplier Details</th>
+																
+																
+															</tr>
+														</thead>
+				
+														<tbody>
+															<tr ng-repeat="arr in supplierComponants2 ">
+																<td>{{arr.supplier.supplierCode}}</td>
+																<td>{{arr.supplier.supplierName}} </td>
+																
+																
+															</tr>
+														</tbody>
+													</table>
+										</div>				
+													
+									
+									</div>
+									
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div> 
+
+
+
+
+
+		</div>s
+	</div>
+</div>

@@ -1,0 +1,63 @@
+<div class="col-md-12 col-lg-12" style="border:17px solid #A9DBD1">
+	<div class="card" style="border: 0px">
+
+		<div class="card-title" style="padding-top: 10px;"><b>
+			Plant Add
+		</b></div>
+		<div class="card-body">
+			<form name="addForm" ng-init="addForm.$pristine">
+				<div class="row">
+					
+						<div class="col-md-12 col-xs-12">
+							<div class="form-group">
+								<label>Plant Code * :</label>
+								<input type="text" ng-model="plant.plant_code" placeholder="Enter Plant Code" name="plant_code" class="form-control" style="text-transform:uppercase" required />
+								<span class="mandatory" ng-show = "addForm.plant_code.$touched && addForm.plant_code.$invalid">  
+									<span class="mandatory" ng-show = "addForm.plant_code.$error.required" style="color:red;">Plant Code is required.</span>
+								</span>
+							</div>
+						</div>
+						
+						<div class="col-md-12 col-xs-12">
+							<div class="form-group">
+								<label>Plant Name * :</label> <input type="text"
+									ng-model="plant.plant_name" placeholder="Enter Plant Name" name="plant_name" class="form-control" required />
+									<span class="mandatory" ng-show = "addForm.plant_name.$touched && addForm.plant_name.$invalid">  
+										<span class="mandatory" ng-show = "addForm.plant_name.$error.required" style="color:red;">Plant Name is required.</span>
+									</span>
+							</div>
+						</div>
+						
+						
+						<div class="col-md-12 col-xs-12">
+							<div class="form-group">
+								<label>Address :</label> 
+								<textarea name="address" ng-model="plant.address" class="form-control">
+								</textarea>
+								
+							</div>
+						</div>
+						
+						<div class="col-md-12 col-xs-12">
+							<div class="form-group">
+								<label>City :</label> <input type="text"
+									ng-model="plant.city" placeholder="Enter City" name="city" class="form-control"/>
+							</div>
+						</div>	
+
+							<div class="col-md-12 col-xs-12">
+								<div class="form-group pull-right">
+									<button type="submit" class="btn btn-default btn-danger"
+										ng-click="vm.cancel()">Cancel</button>
+									<button type="submit" class="btn btn-default btn-primary"
+										ng-click="vm.ok(plant)" ng-disabled="!addForm.$valid">Submit</button>
+								</div>
+							</div>
+
+						</div>
+			</form>	
+
+		</div>
+
+	</div>
+</div>

@@ -1,0 +1,134 @@
+<!-- Role Management Dependencies-->
+<script type="text/javascript" src="assets/js/jquery.table2excel.js"></script>
+<script type="text/javascript" src="assets\js\pdfmake.min.js"></script>
+<script type="text/javascript" src="assets\js\html2canvas.min.js"></script>
+
+<style>    
+    input:focus {
+        border: 1px solid grey !important;
+    }
+</style>
+
+<div class="content-page">
+    <!-- Start content -->
+    <div class="content">
+        <div class="container-fluid">
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <h4 class="page-title float-left"> Role Management </h4>
+                        <div class="clearfix"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- end row -->
+
+            <div class="row">
+                <div class="col-12">
+                    <div class="page-title-box">
+                        <div class="row">
+                            <div class="col-sm-12 col-xs-12">
+                                <div class="card-box table-responsive">
+                                    <table class="table table-bordered" datatable="ng" dt-column-defs="dtColumnDefs"
+                                        dt-options="dtOptions" style="width:100%;margin:0 auto">
+                                        <thead>
+                                            <tr class="customTable">
+                                                <th>Sr.no</th>
+                                                <th>Permission</th>
+                                                <th ng-repeat="arr in vm.permissionsList track by $index">{{arr.name}}
+                                                </th>
+                                                <th style="background-color:#59c787">Action<br><button
+                                                        class="btn btn-default w-md btn-rounded waves-effect waves-light"
+                                                        style="width:100%;"
+                                                        ng-click="vm.addNewRowInTable();">Add</button></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            <tr ng-repeat="userRole in vm.roleDetailsList track by $index">
+                                                <td>{{$index+1}}</td>
+                                                <td><input type="text" class="form-control" style="width: 180px !important;" ng-model="userRole.roleName" ng-disabled="userRole.roleName == 'Super Admin'"></td>
+                                                <td ng-repeat="permission in vm.permissionsList track by $index"><input
+                                                        type="checkbox" ng-disabled="userRole.roleName == 'Super Admin'"
+                                                        ng-checked="vm.getSelect(permission, userRole)"
+                                                        ng-click="vm.manageUserRole(permission, userRole);">
+                                                    <!-- {{pr.permissionId+','+ arr.permission[$parent.$index].permissionId}} -->
+                                                </td>
+                                                <td nowrap id="action"><button style="width: 63%;"
+                                                        ng-disabled="userRole.roleName == 'Super Admin'"
+                                                        class="btn btn-info waves-effect waves-light"
+                                                        ng-click="vm.activeDeactive(userRole);">{{userRole.active ? 'Deactivate' : 'Activate'}}</button><button
+                                                        class="btn btn-success waves-effect waves-light"
+                                                        style="margin-left: 5%;width: 35%;"
+                                                        ng-disabled="userRole.roleName == 'Super Admin'"
+                                                        ng-click="vm.assignPermissionsToRole(userRole);">Save</button>
+                                                </td>
+                                            </tr>
+                                        </tbody>
+                                    </table>
+                                    <!-- Export to Excel -->
+                                    <button class="btn btn-info w-md btn-rounded waves-effect waves-light"
+                                        id="export_to_excel_roles"
+                                        style="float: right; width:20%;">Export to Excel</button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div> 
+
+        </div>
+    </div>
+</div>
+
+<!-- Excel Table Maker Start-->
+<table ng-hide="true" id="exportTable" summary="Code page support in different versions of MS Windows." rules="groups" frame="hsides" border="2" class="table table-bordered">
+        <thead class="table-header oranage">
+            <td><label>Sr No.</label></td>
+            <td style="padding-bottom:0px;">Permission</td>
+            <td style="padding-bottom:0px;" ng-repeat="arr in vm.permissionsList track by $index">
+                <label>{{arr.name}}</label>
+            </td>
+        </thead>
+        <tbody class="role-body" id="rolesList">
+            <tr ng-repeat="userRole in vm.roleDetailsList track by $index">
+                <td id="id">{{$index + 1}}</td>
+                <td id="roleName"><lable> {{userRole.roleName}} </lable></td>
+                <td ng-repeat="permission in vm.permissionsList track by $index">
+                    <lable>{{ vm.getSelect(permission, userRole) ? 'Yes' : 'No'}}</lable>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+<!-- Excel Table Maker End-->
+
+<script type="text/javascript">
+    $('#export_to_excel_roles').click(function () {
+        $("#exportTable").table2excel({
+            exclude: ".action",
+            name: "All Enterprises",
+            filename: "roleDetails",
+            fileext: ".xls",
+            exclude_img: true,
+            exclude_links: true,
+            exclude_inputs: true
+        });
+
+    });
+
+    $(document).ready(function () {
+        $('tbody').scroll(function (e) { //detect a scroll event on the tbody
+            /*
+            Setting the thead left value to the negative valule of tbody.scrollLeft will make it track the movement
+            of the tbody element. Setting an elements left value to that of the tbody.scrollLeft left makes it maintain 			it's relative position at the left of the table.    
+            */
+            $('thead').css("left", -$("tbody")
+                .scrollLeft()); //fix the thead relative to the body scrolling
+            $('thead th:nth-child(1)').css("left", $("tbody")
+                .scrollLeft()); //fix the first cell of the header
+            $('tbody td:nth-child(1)').css("left", $("tbody")
+                .scrollLeft()); //fix the first column of tdbody
+        });
+    });
+</script>

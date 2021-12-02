@@ -1,0 +1,138 @@
+<style type="text/css">
+	input:focus {
+		border: 1px solid grey !important;
+	}
+
+	.date1 {
+		width: 200px !important;
+		font-size: 12px !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+		background: #fff url(image/calendar_2.png) 97% 50% no-repeat !important;
+	}
+
+	.date1::-webkit-inner-spin-button {
+		display: none;
+	}
+
+	.date1::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
+</style>
+
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left">Put-Away Report</h4>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+
+			<!-- start row -->
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+									<div class="row">
+										<div class="col-md-12 text-center">
+											<img src="../../image/quarantine.png" style="width: 50px; height: 50px;" />
+										</div>
+									</div>
+									<h4 class="m-t-0 header-title">Search By:</h4>
+
+									<div class="row" style="margin-top:1%;">
+										<div class="col-sm-2" style="padding-top: 10px">
+											<label class="control-form"> Search by Date:<span
+													style="color: red;">*</span></label>
+										</div>
+										<div class="col-sm-3">
+											<input type="date" class="date1" ng-model="date"
+												ng-change="vm.generateReport();">
+										</div>
+									</div>
+
+									<h4 class="m-t-0 header-title" style="margin-top:2% !important;">Or:</h4>
+
+									<div class="row" style="margin-top: 1%;">
+										<div class="col-sm-2" style="padding-top: 10px">
+											<label class="control-form"> Start Date:<span
+													style="color: red;">*</span></label>
+										</div>
+										<div class="col-sm-3">
+											<input type="date" class="date1" ng-model="fromDate"
+												ng-change="vm.generateReportByDateRange();">
+										</div>
+										<div class="col-sm-2" style="padding-top: 10px">
+											<label class="control-form"> End Date:<span
+													style="color: red;">*</span></label>
+										</div>
+										<div class="col-sm-3">
+											<input type="date" class="date1" ng-model="toDate"
+												ng-change="vm.generateReportByDateRange();">
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box table-responsive">
+									<table class="table table-bordered" datatable="ng" dt-column-defs="dtColumnDefs"
+										dt-options="dtOptions" style="width:100%;margin:0 auto">
+										<thead>
+											<tr class="customTable">
+												<th style="padding-bottom:3.5vh;"> # </th>
+												<th style="padding-bottom:3.5vh;">Item Id</th>
+												<th style="padding-bottom:3.5vh;">Item Detail</th>
+												<th style="padding-bottom:3.5vh;">Plant</th>
+												<th style="padding-bottom:3.5vh;">Store Loc.</th>
+												<th style="padding-bottom:3.5vh;">Storage Bin</th>
+												<th style="padding-bottom:3.5vh;">Quantity</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="arr in vm.reportsList track by $index">
+												<td>{{$index + 1}}</td>
+												<td>{{arr.itemId}}</td>
+												<td>{{arr.itemDtl}}</td>
+												<td>{{arr.plantCode}}</td>
+												<td>{{arr.storeLoc}}</td>
+												<td>{{arr.storageBins}}</td>
+												<td>{{arr.approQty}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+								<button class="btn btn-info w-md btn-rounded waves-effect waves-light"
+									ng-show="vm.reportsList.length>0" style="float: right; width:20%;"
+									ng-json-export-excel data="vm.reportsList" report-fields="vm.labels"
+									filename="'Put-Away Report'">Export</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+</div>

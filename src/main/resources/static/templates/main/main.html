@@ -1,0 +1,298 @@
+<style>
+    .img1 {
+        /* -webkit-filter: drop-shadow(1px 1px 0 grey) drop-shadow(-1px -1px 0 grey);
+        filter: drop-shadow(1px 1px 0 grey) drop-shadow(-1px -1px 0 grey); */
+        width: 80%;
+        height: 100%;
+    }
+
+    .pointer:hover {
+        cursor: pointer;
+        color: white;
+    }
+</style>
+  <style>
+.mydiv {  
+    position:absolute;
+    top:0;
+    overflow: hidden;
+    left:0;
+    width:100%;
+    height:150%;
+    z-index:1000;
+    background-color:grey;
+    opacity: .8;
+ }
+
+.ajax-loader {
+    position: absolute;
+    left: 50%;
+    top: 25%;
+    margin-left: -32px; /* -1 * image width / 2 */
+    margin-top: -22px;  /* -1 * image height / 2 */
+    display: block;   
+    }  
+</style>
+<div ng-if="loader" class="mydiv"> 
+	 <img src="image/transparent-background-loading.gif" class="ajax-loader"/>
+</div> 
+<!-- END wrapper -->
+<!-- jQuery  -->
+<script src="assets/js/jquery.min.js"></script>
+<script src="assets/js/popper.min.js"></script><!-- Popper for Bootstrap -->
+<script src="assets/js/bootstrap.min.js"></script>
+<script src="assets/js/metisMenu.min.js"></script>
+<script src="assets/js/waves.js"></script>
+<script src="assets/js/jquery.slimscroll.js"></script>
+
+<!-- Counter js  -->
+<script src="../plugins/waypoints/jquery.waypoints.min.js"></script>
+<script src="../plugins/counterup/jquery.counterup.min.js"></script>
+
+<!--C3 Chart-->
+<script type="text/javascript" src="plugins/d3/d3.min.js"></script>
+<script type="text/javascript" src="plugins/c3/c3.min.js"></script>
+
+<!--Echart Chart-->
+<script src="plugins/echart/echarts-all.js"></script>
+
+<!-- Dashboard init -->
+<script src="assets/pages/jquery.dashboard.js"></script>
+
+<!-- App js -->
+<style>
+    .mydiv {
+        position: absolute;
+        top: 0;
+        overflow: hidden;
+        left: 0;
+        width: 100%;
+        height: 150%;
+        z-index: 1000;
+        background-color: grey;
+        opacity: .8;
+    }
+
+    .ajax-loader {
+        position: absolute;
+        left: 50%;
+        top: 25%;
+        margin-left: -32px;
+        /* -1 * image width / 2 */
+        margin-top: -22px;
+        /* -1 * image height / 2 */
+        display: block;
+    }
+</style>
+<div ng-if="loader" class="mydiv">
+    <img src="image/transparent-background-loading.gif" class="ajax-loader" />
+</div>
+<!-- App js -->
+<script src="assets/js/jquery.core.js"></script>
+<script src="assets/js/jquery.app.js"></script>
+<!-- Begin page -->
+<div id="wrapper">
+
+    <!-- Top Bar End -->
+    <!-- Top Bar Start -->
+    <div class="topbar">
+
+        <!-- LOGO -->
+        <div class="topbar-left">
+            <!-- <a class="logo" ui-sref="main.home"> -->
+            <a class="logo" href="javascript: void(0);">
+                <span>
+                    <img class="img1" src="assets/images/adplogo.jpg" alt="" height="45" />
+                    <h4 style="color: #f1f1f1">Barcode Tracker</h4>
+                </span>
+                <i>
+                    <img src="assets/images/logo.png" alt="" height="60">
+                </i>
+            </a>
+        </div>
+
+        <nav class="navbar-custom" style="opacity: 0.5;">
+
+            <ul class="list-inline float-right mb-0">
+
+            </ul>
+
+        </nav>
+
+    </div>
+    <!-- Top Bar End -->
+
+
+    <!-- ========== Left Sidebar Start ========== -->
+    <div class="left side-menu">
+        <div class="slimscroll-menu" id="remove-scroll">
+
+            <!--- Sidemenu -->
+            <div id="sidebar-menu">
+                <!-- Left Menu Start -->
+                <ul class="metismenu" id="side-menu">
+                    <li class="menu-title"></li>
+                    <li>
+                        <a href="javascript: void(0);">
+                            <i class="fa fa-adjust"></i> <span> <b>Hello!
+                                    {{vm.user.firstName + " " + vm.user.lastName}} </b></span>
+                            <!-- </br>(Department :{{vm.user.department.department_name}}) -->
+                        </a>
+                        <ul class="nav-second-level" aria-expanded=false>
+
+                            <li class="pointer"><a ui-sref='main.login'><span ng-click="vm.doLogout()"> <i
+                                            class="mdi mdi-logout-variant"></i>Log out</a></li>
+                        </ul>
+                    </li>
+                    <!-- <li>
+                                <a href=" javascript: void(0);" ui-sref="main.home">
+                                                <i class="fi-air-play"></i> <span> Dashboard </span>
+                                    </a>
+                                </li> -->
+ 					 <li >
+                        <a href=" javascript: void(0);" ui-sref="main.home">
+                            <i class="mdi mdi-chart-tree" aria-hidden="true"></i> <span> Dashboard </span>
+                        </a>
+                    </li>
+                                
+                    <li ng-show="showUploads">
+                        <a href=" javascript: void(0);" ui-sref="main.uploads">
+                            <i class="fa fa-upload" aria-hidden="true"></i> <span> Uploads </span>
+                        </a>
+                    </li>
+
+                    <li ng-show="showPOMaterial">
+                        <a href=" javascript: void(0);" ui-sref="main.purchaseOrder">
+                            <i class="fa fa-angle-double-down"></i> <span> PO - Inwards </span>
+                        </a>
+                    </li>
+                    <li ng-show="showGrn">
+                        <a href=" javascript: void(0);" ui-sref="main.grn">
+                            <i class="fa fa-book"></i> <span> Create GRN </span>
+                        </a>
+                    </li>
+
+                    <li ng-show="showQrGenerator">
+                        <a href=" javascript: void(0);" ui-sref="main.qrGrn">
+                            <i class="fa fa-qrcode"></i> <span> GRN QR Generator </span>
+                        </a>
+                    </li>
+                     <li ng-show="showGrn">
+                        <a href=" javascript: void(0);" ui-sref="main.items">
+                            <i class="fa fa-book"></i> <span> Components </span>
+                        </a>
+                    </li>
+                  <li ng-show="showGrn">
+                        <a href=" javascript: void(0);" ui-sref="main.productionOrder">
+                            <i class="fa fa-book"></i> <span> Production Order </span>
+                        </a>
+                    </li>
+                       <li ng-show="showGrn">
+                        <a href=" javascript: void(0);" ui-sref="main.supplierAndItems">
+                            <i class="fa fa-book"></i> <span> Supplier Component</span>
+                        </a>
+                    </li>
+
+                    <li ng-show="showStorageBins || showModelPlan || showRequestedAssm">
+                        <a href="javascript: void(0);"><i class="fa fa-industry"></i> <span> Ware-House </span> <span
+                                class="menu-arrow"></span></a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li ng-show="showStorageBins">
+                                <a href=" javascript: void(0);" ui-sref="main.storageBin">
+                                    <i class="fa fa-archive"></i> <span> Storage </span>
+                                </a>
+                            </li>
+                            <li ng-show="showModelPlan">
+                                <a href=" javascript: void(0);" ui-sref="main.modelPlan">
+                                    <i class="fa fa-tasks"></i> <span> Model Plan </span>
+                                </a>
+                            </li>
+                            <li ng-show="showRequestedAssm">
+                                <a href=" javascript: void(0);" ui-sref="main.requestedAssm">
+                                    <i class="fa fa-flag"></i> <span> Req. Assemblies </span>
+                                </a>
+                            </li>
+                            <li ng-show="showKittingArea">
+                                <a href=" javascript: void(0);" ui-sref="main.kittingArea">
+                                    <i class="fa fa-suitcase"></i> <span> Kitting Area </span>
+                                </a>
+                            </li>
+                        </ul>
+                    </li>
+
+                    <li ng-show="showCustomizeMachine || showRequestMachine">
+                        <a href="javascript: void(0);"><i class="fa fa-cogs"></i> <span> Machine </span> <span
+                                class="menu-arrow"></span></a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li ng-show="showCustomizeMachine"><a ui-sref="main.customizeMachine"
+                                    ui-sref-active="active">
+                                    <i class="fa fa-edit"></i>Customize</a></li>
+                            <li ng-show="showRequestMachine"><a ui-sref="main.requestMachine" ui-sref-active="active">
+                                    <i class="fa fa-flag"></i>Request</a></li>
+                        </ul>
+                    </li>
+
+                    <li ng-show="showAttendance">
+                        <a href="javascript: void(0);"><i class="fa fa-users"></i> <span> Man-Power </span> <span
+                                class="menu-arrow"></span></a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a ui-sref="main.employee" ui-sref-active="active">
+                                    <i class="fa fa-address-card"></i>Employee</a></li>
+                            <li><a ui-sref="main.attendance" ui-sref-active="active">
+                                    <i class="fa fa-check-circle"></i>Attendance</a></li>
+                        </ul>
+                    </li>
+
+                    <li ng-show="showReports">
+                        <a href="javascript: void(0);"><i class="fi-server"></i> <span> Reports </span> <span
+                                class="menu-arrow"></span></a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a ui-sref="main.deviationReport" ui-sref-active="active">
+                                    <i class="fi-server"></i>Deviation Report</a></li>
+                            <li><a ui-sref="main.grnReport" ui-sref-active="active">
+                                    <i class="fi-server"></i>GRN Report</a></li>
+                            <li><a ui-sref="main.putAwayReport" ui-sref-active="active">
+                                    <i class="fi-server"></i>PutAway Report</a></li>
+                            <li><a ui-sref="main.stocksReport" ui-sref-active="active">
+                                    <i class="fi-server"></i>Stocks Report</a></li>
+                            <li><a ui-sref="main.pickingReport" ui-sref-active="active">
+                                    <i class="fi-server"></i>Picking Report</a></li>
+                            <li><a ui-sref="main.transactionReport" ui-sref-active="active">
+                                    <i class="fi-server"></i>Transaction Report</a></li>
+                            <li><a ui-sref="main.detailpendingReport" ui-sref-active="active">
+                                    <i class="fi-server"></i>Pending Report</a></li>
+                                    
+                              <li><a ui-sref="main.pendingReport" ui-sref-active="active">
+                                    <i class="fi-server"></i>Pending Report(Component Wise)</a></li>
+                        </ul>
+                    </li>
+                    <li ng-show="showAccessManagement">
+                        <a href="javascript: void(0);"><i class="fa fa-user"></i> <span> Admin </span> <span
+                                class="menu-arrow"></span></a>
+                        <ul class="nav-second-level" aria-expanded="false">
+                            <li><a ui-sref="main.roleManagement" ui-sref-active="active">
+                                    <i class="fa fa-user"></i>Role Management</a></li>
+                            <li><a ui-sref="main.user" ui-sref-active="active">
+                                    <i class="fa fa-user"></i>User Management</a></li>
+                            <li><a ui-sref="main.roleToUser" ui-sref-active="active">
+                                    <i class="fa fa-user"></i>Role to User</a></li>
+                            <li><a ui-sref="main.userToRole" ui-sref-active="active">
+                                    <i class="fa fa-user"></i>User to Role</a></li>
+                        </ul>
+                    </li>
+
+
+                </ul>
+
+            </div>
+
+        </div>
+        <!-- Sidebar -left -->
+
+    </div>
+    <!-- Left Sidebar End -->
+
+    <div ui-view="sub"></div>
+
+
+</div>

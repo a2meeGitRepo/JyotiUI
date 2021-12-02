@@ -1,0 +1,70 @@
+{
+  "_args": [
+    [
+      "bwip-js@0.14.2",
+      "C:\\xampp\\htdocs\\td-angular-barcode-master\\examples\\demo"
+    ]
+  ],
+  "_from": "bwip-js@0.14.2",
+  "_id": "bwip-js@0.14.2",
+  "_inBundle": false,
+  "_integrity": "sha1-+P8hUurZ2eqkCiUPyRGCrogFxRI=",
+  "_location": "/bwip-js",
+  "_phantomChildren": {},
+  "_requested": {
+    "type": "version",
+    "registry": true,
+    "raw": "bwip-js@0.14.2",
+    "name": "bwip-js",
+    "escapedName": "bwip-js",
+    "rawSpec": "0.14.2",
+    "saveSpec": null,
+    "fetchSpec": "0.14.2"
+  },
+  "_requiredBy": [
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/bwip-js/-/bwip-js-0.14.2.tgz",
+  "_spec": "0.14.2",
+  "_where": "C:\\xampp\\htdocs\\td-angular-barcode-master\\examples\\demo",
+  "author": {
+    "name": "Mark Warren",
+    "email": "mwarren@metafloor.com"
+  },
+  "bugs": {
+    "url": "https://github.com/metafloor/bwip-js/issues"
+  },
+  "description": "Barcode generator supporting over 90 types and standards.",
+  "homepage": "https://github.com/metafloor/bwip-js",
+  "keywords": [
+    "qr",
+    "itf",
+    "gs1",
+    "upc",
+    "ean",
+    "pdf417",
+    "matrix",
+    "data",
+    "datamatrix",
+    "qrcode",
+    "databar",
+    "code128",
+    "code93",
+    "code39",
+    "code",
+    "bar",
+    "generator",
+    "barcode"
+  ],
+  "license": "MIT",
+  "main": "node-bwipjs",
+  "name": "bwip-js",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/metafloor/bwip-js.git"
+  },
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "version": "0.14.2"
+}

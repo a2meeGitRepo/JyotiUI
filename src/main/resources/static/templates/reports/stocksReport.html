@@ -1,0 +1,247 @@
+<style type="text/css">
+	input:focus {
+		border: 1px solid grey !important;
+	}
+
+	.date1 {
+		width: 200px !important;
+		font-size: 12px !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+		background: #fff url(image/calendar_2.png) 97% 50% no-repeat !important;
+	}
+
+	.date1::-webkit-inner-spin-button {
+		display: none;
+	}
+
+	.date1::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
+</style>
+
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left">Stocks Report</h4>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+
+			<!-- start row -->
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+									<div class="row">
+										<div class="col-md-12 text-center">
+											<img src="../../image/quarantine.png" style="width: 50px; height: 50px;" />
+										</div>
+									</div>
+									<h4 class="m-t-0 header-title">Search By:</h4>
+
+									<div class="row" style="margin-top:1%;">
+										<div class="col-sm-3 col-xs-3">
+											<input name="plantList" type="text" placeholder="Enter Plant Name"
+												ng-model="selectedPlant"
+												uib-typeahead="plant as plant.plant_code for plant in vm.plants | filter:$viewValue | limitTo:8"
+												typeahead-no-results="plantLists" class="form-control typeahead-demo">
+										</div>
+
+										<div class="col-sm-1 col-xs-3">
+											<button class="btn btn-success btn-rounded waves-effect waves-light"
+												style="width:100%;" ng-click="addPlant()"> Add </button>
+										</div>
+
+										<div class="col-sm-8">
+											<table class="table table-bordered" style="width:100%;margin:0 auto">
+												<thead>
+													<tr class="customTable">
+														<th> # </th>
+														<th> Plant Code </th>
+														<th> Plant Name </th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="arr in plantTypes track by $index">
+														<td>{{$index + 1}}</td>
+														<td>{{arr.plant_code}}</td>
+														<td>{{arr.plant_name}} <input type="image" class="btn"
+																src="../../image/close-window.png"
+																style="height:25px;width:25px;padding:0;"
+																ng-click="removePlant($index)"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="row" style="margin-top:1%;">
+										<div class="col-sm-3 col-xs-3">
+											<input name="storageList" type="text" placeholder="Enter Storage Location"
+												ng-model="selectedStorage"
+												uib-typeahead="storage as storage.storage_location for storage in vm.storages | filter:$viewValue | limitTo:8"
+												typeahead-no-results="storageLists" class="form-control typeahead-demo">
+										</div>
+
+										<div class="col-sm-1 col-xs-3">
+											<button class="btn btn-success btn-rounded waves-effect waves-light"
+												style="width:100%;" ng-click="addStorage()"> Add </button>
+										</div>
+
+										<div class="col-sm-8">
+											<table class="table table-bordered" style="width:100%;margin:0 auto">
+												<thead>
+													<tr class="customTable">
+														<th> # </th>
+														<th> Storage Location </th>
+														<th> Storage Desc. </th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="arr in storageTypes track by $index">
+														<td>{{$index + 1}}</td>
+														<td>{{arr.storage_location}}</td>
+														<td>{{arr.storage_desc}} <input type="image" class="btn"
+																src="../../image/close-window.png"
+																style="height:25px;width:25px;padding:0;"
+																ng-click="removeStorage($index)"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="row" style="margin-top:1%;">
+										<div class="col-sm-3 col-xs-3">
+											<input name="itemList" type="text" placeholder="Enter Item Id"
+												ng-model="selectedItem" ng-disabled="isBinSelected"
+												uib-typeahead="item as item.itemMstId for item in vm.items | filter:$viewValue | limitTo:8"
+												typeahead-no-results="itemLists" class="form-control typeahead-demo">
+										</div>
+
+										<div class="col-sm-1 col-xs-3">
+											<button class="btn btn-success btn-rounded waves-effect waves-light"
+												style="width:100%;" ng-click="addItem()">
+												Add </button>
+										</div>
+
+										<div class="col-sm-8">
+											<table class="table table-bordered" style="width:100%;margin:0 auto">
+												<thead>
+													<tr class="customTable">
+														<th> # </th>
+														<th> Item Id </th>
+														<th> Item Detail </th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="arr in itemTypes track by $index">
+														<td>{{$index + 1}}</td>
+														<td>{{arr.itemMstId}}</td>
+														<td>{{arr.itemDtl}} <input type="image" class="btn"
+																src="../../image/close-window.png"
+																style="height:25px;width:25px;padding:0;"
+																ng-click="removeItem($index)"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+									<div class="row" style="margin-top:1%;">
+										<div class="col-sm-1" style="padding-top: 10px">
+											<label class="control-form">Date:<span style="color: red;">*</span></label>
+										</div>
+										<div class="col-sm-3">
+											<input type="date" style="width: 170px !important;" class="date1"
+												ng-model="date" ng-change="vm.generateReport();">
+										</div>
+									</div>
+
+									<h4 class="m-t-0 header-title" style="margin-top:2% !important;">Or:</h4>
+
+									<div class="row" style="margin-top: 1%;">
+										<div class="col-sm-2" style="padding-top: 10px">
+											<label class="control-form"> Start Date:<span
+													style="color: red;">*</span></label>
+										</div>
+										<div class="col-sm-3">
+											<input type="date" style="width: 170px !important;" class="date1"
+												ng-model="fromDate" ng-change="vm.generateReportByDateRange();">
+										</div>
+										<div class="col-sm-2" style="padding-top: 10px">
+											<label class="control-form"> End Date:<span
+													style="color: red;">*</span></label>
+										</div>
+										<div class="col-sm-3">
+											<input type="date" style="width: 170px !important;" class="date1"
+												ng-model="toDate" ng-change="vm.generateReportByDateRange();">
+										</div>
+									</div>
+
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box table-responsive">
+									<table class="table table-bordered" datatable="ng" dt-column-defs="dtColumnDefs"
+										dt-options="dtOptions" style="width:100%;margin:0 auto">
+										<thead>
+											<tr class="customTable">
+												<th>#</th>
+												<th>Item Id</th>
+												<th>Item Detail</th>
+												<th>Location for Approved QTY</th>
+												<th>Approved QTY</th>
+												<th>Hold QTY</th>
+												<th>Rejected QTY</th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="arr in vm.reportsList track by $index">
+												<td>{{$index + 1}}</td>
+												<td>{{arr.itemId}}</td>
+												<td>{{arr.itemDtl}}</td>
+												<td>{{arr.storageBins}}</td>
+												<td style="color:green;"><b>{{arr.approQty}}</b></td>
+												<td style="color:orange;"><b>{{arr.holdQty}}</b></td>
+												<td style="color:red;"><b>{{arr.rejQty}}</b></td>
+											</tr>
+										</tbody>
+									</table>
+
+								</div>
+								<button class="btn btn-info w-md btn-rounded waves-effect waves-light"
+									ng-show="vm.reportsList.length>0" style="float: right; width:20%;"
+									ng-json-export-excel data="vm.reportsList" report-fields="vm.labels"
+									filename="'Stocks Report'">Export</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+</div>

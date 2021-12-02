@@ -1,0 +1,471 @@
+<style>
+	input:focus {
+		border: 1px solid grey !important;
+	}
+
+	.input1 {
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		font-size: 12px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+	}
+
+	.reading {
+		border: 0px !important;
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		text-align: center !important;
+		font-size: 12px !important;
+	}
+
+	.reading:focus {
+		border: 0px !important;
+		width: 120px !important;
+		line-height: 30px !important;
+		box-sizing: border-box !important;
+		text-align: center !important;
+		font-size: 12px !important;
+	}
+
+	.input1:focus,
+	.date1:focus {
+		width: 120px !important;
+		line-height: 30px !important;
+		border: 2.5px solid #ccc !important;
+		border-radius: 4px !important;
+
+	}
+
+	.date1 {
+		width: 120px !important;
+		line-height: 30px !important;
+		font-size: 12px !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+		background: #fff url(image/calendar_2.png) 97% 50% no-repeat !important;
+	}
+
+	.date1::-webkit-inner-spin-button {
+		display: none;
+	}
+
+	.date1::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
+
+	th,
+	td {
+		white-space: nowrap;
+	}
+</style>
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left"> Model Plan </h4>
+						<button class="btn btn-primary btn-rounded w-md waves-effect waves-light float-right"
+							ng-click="isModelFormOpen = !isModelFormOpen" ng-show="isAdmin">
+							Create Model Plan
+						</button>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+
+			<div class="row" ng-show="!isModelFormOpen">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+
+									<h4 class="m-t-0 header-title">Search By:</h4>
+
+									<form>
+										<div class="form-row">
+											<div class="form-group col-sm-2 col-xs-3">
+												<label class="col-form-label" style="margin-top: 8px;">Month<span> <i
+															style="color:red">*</i></span></label>
+											</div>
+											<div class="form-group col-sm-3 col-xs-3">
+												<select class="form-control f_left" ng-model="searchMonth" required>
+													<option value="" disabled selected>Select Month</option>
+													<option ng-repeat="opts in months" value="{{opts}}">
+														{{opts}} </option>
+												</select>
+											</div>
+											<div class="col-sm-1 col-xs-1"></div>
+											<div class="form-group col-sm-2 col-xs-3">
+												<label class="col-form-label" style="margin-top: 8px;"> Year: <span> <i
+															style="color:red">*</i></span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<select class="form-control f_left" ng-model="searchYear"
+													style="height: 80% !important;" required>
+													<option value="" disabled selected>Select Year</option>
+													<option ng-repeat="opts in years" value="{{opts}}"
+														ng-disabled="opts>thisYear">
+														{{opts}} </option>
+												</select>
+											</div>
+										</div>
+									</form>
+									<div class="row" style="margin-top: 2%; margin-right: 7%;">
+										<div class="col-sm-6 col-xs-6"></div>
+										<div class="col-sm-2 col-xs-2">
+											<button style="width: 100%;"
+												class="btn btn-warning btn-rounded w-md waves-effect waves-light"
+												ng-click="getModelPlan()">
+												Model Tree View
+											</button>
+										</div>
+										<div class="col-sm-2 col-xs-2">
+											<button style="width: 100%;"
+												class="btn btn-warning btn-rounded w-md waves-effect waves-light"
+												ng-click="getAssembliesByMonth()">
+												Get Assemblies
+											</button>
+										</div>
+										<div class="col-sm-2 col-xs-2">
+											<button style="width: 100%;"
+												class="btn btn-warning btn-rounded w-md waves-effect waves-light"
+												ng-click="getCompByMonth()">
+												Get Components
+											</button>
+										</div>
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+					<div class="clearfix"></div>
+				</div>
+			</div>
+
+			<div class="row" ng-show="isModelFormOpen">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+
+									<h4 class="m-t-0 header-title">Add a Model Plan:</h4>
+
+									<form name="myForm">
+										<div class="row" style="margin-top:2%">
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Model Code: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Model Quantity: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Month: <span
+														style="color:red;">*</span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<label class="control-form"> Year: <span
+														style="color:red;">*</span></label>
+											</div>
+										</div>
+
+										<div class="row" style="margin-top:1%">
+											<div class="col-sm-3 col-xs-3">
+												<select class="form-control f_left" ng-model="modelCode">
+													<option value="" disabled selected>Select Model</option>
+													<option ng-repeat="opts in models track by $index"
+														value="{{opts.modelCode}}">
+														{{opts.modelCode}} </option>
+												</select>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<input type="number"
+													onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+													ng-model="qty" class="f_left form-control">
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<select class="form-control f_left" ng-model="month">
+													<option value="" disabled selected>Select Month</option>
+													<option ng-repeat="opts in months" value="{{opts}}">
+														{{opts}} </option>
+												</select>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<select class="form-control f_left" ng-model="year">
+													<option value="" disabled selected>Select Year</option>
+													<option ng-repeat="opts in years" value="{{opts}}"
+														ng-disabled="opts>thisYear">
+														{{opts}} </option>
+												</select>
+											</div>
+										</div>
+									</form>
+									<div class="row" style="margin-top:2%">
+										<div class="col-sm-9 col-xs-3"></div>
+										<div class="col-sm-1 col-xs-3" style="float: right">
+											<button class="btn btn-warning btn-rounded w-md waves-effect waves-light"
+												ng-click="cancelAdd()"> Cancel </button>
+										</div>
+										<div class="col-sm-2 col-xs-3">
+											<button class="btn btn-success btn-rounded w-md waves-effect waves-light"
+												ng-click="addModelPlan()" style="float: right"> Add
+												Model Plan </button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-show="isLoading">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box text-center">
+									<img src="../../image/transparent-background-loading.gif" alt="loading-img"
+										style="width: 50px; height: 50px"></div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-show="modelTable && !isLoading">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box table-responsive">
+									<table class="table table-bordered" datatable="ng">
+										<thead>
+											<tr class="customTable">
+												<th>Model Code</th>
+												<th>Quantity</th>
+												<th>PO No.</th>
+												<th>Picker</th>
+												<th>Assemblies</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr ng-repeat="arr in modelDetails track by $index">
+												<td>{{arr.modelCode}}</td>
+												<td>{{arr.qty}} EA</td>
+												<td>
+													<select ng-show="arr.flag" class="form-control f_left"
+														ng-model="arr.selectedProOrdNo"
+														style="width:50%; margin-right:2px;display:inline-block">
+														<option value="" disabled selected>Select PO</option>
+														<option ng-repeat="prodOrdNo in vm.prodOrdDetails track by $index"
+															value="{{prodOrdNo}}">
+															{{prodOrdNo}} </option>
+													</select>
+													<div ng-show="!arr.flag">{{ arr.proOrdNo }}</div>
+												</td>
+												<td>
+													<select ng-show="arr.flag" class="form-control f_left"
+														ng-model="arr.selectedEmp" ng-disabled="arr.assigned==1"
+														style="width:50%; margin-right:2px;display:inline-block">
+														<option value="" disabled selected>Select Picker</option>
+														<option ng-repeat="opts in pickers"
+															value="{{opts}}">
+															{{opts.firstName}} {{opts.lastName}} </option>
+													</select>
+
+													<div ng-show="!arr.flag">{{arr.employee.firstName}}
+														{{ arr.employee.lastName }}</div>
+												</td>
+												<td>
+													<button class="btn btn-primary waves-effect waves-light" ng-show="!arr.flag" ng-click="modify($index)" style="margin-right: 2px;" aria-hidden="true"><i class="fa fa-edit" aria-hidden="true"></i></button>
+													<button class="btn btn-success waves-effect waves-light" ng-disabled="$index==disbaleUpdate" ng-show="arr.flag" ng-click="update($index, arr)" style="margin-right: 5px;" aria-hidden="false"><i class="fa fa-save" aria-hidden="true"></i></button>
+													<button class="btn btn-primary waves-effect waves-light"
+														ng-click="getAssemblies(arr)"><i class="fa fa-eye"></i></button>
+												</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-show="assemblyTable && !isLoading">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box">
+									<div class="row">
+										<div class="col-md-12 text-center">
+											<h4 class="m-t-0 header-title">Model Code- {{selectedModel}} : QTY-
+												{{selectedModelQty}}</h4>
+											<button class="btn btn-warning waves-effect waves-light"
+												style="float:right;margin-right:2%;" ng-click="getModelPlan()">
+												<i class="fa fa-arrow-left"></i></button>
+										</div>
+									</div>
+									<div class="row table-responsive">
+										<table class="table table-bordered" datatable="ng">
+											<thead>
+												<tr class="customTable">
+													<th>Assembly Code</th>
+													<th>Assembly Desc.</th>
+													<th>Quantity</th>
+													<th>Components</th>
+												</tr>
+											</thead>
+
+											<tbody>
+												<tr ng-repeat="arr in assemblyDetails track by $index">
+													<td>{{arr.assemblyCode}}</td>
+													<td>{{arr.assemblyDesc}}</td>
+													<td>{{arr.assemblyQty}} {{arr.uom}}</td>
+													<td>
+														<button class="btn btn-primary waves-effect waves-light"
+															ng-click="getComponents(arr)"><i class="fa fa-eye"></i></button>
+													</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-show="compTable && !isLoading">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box">
+									<div class="row">
+										<div class="col-md-12 text-center">
+											<h4 class="m-t-0 header-title">Model Code- {{selectedModel}} : QTY-
+												{{selectedModelQty}}</h4>
+											<br />
+											<h4 class="m-t-0 header-title">Assembly Code- {{selectedAssembly}} : QTY-
+												{{selectedAssemblyQty}}</h4>
+											<button class="btn btn-warning waves-effect waves-light"
+												style="float:right;margin-right: 2%;"
+												ng-click="getAssemblies(selectedModelObj)">
+												<i class="fa fa-arrow-left"></i></button>
+										</div>
+									</div>
+									<div class="row table-responsive">
+										<table class="table table-bordered" datatable="ng">
+											<thead>
+												<tr class="customTable">
+													<th>Component Code</th>
+													<th>Component Desc.</th>
+													<th>Quantity</th>
+													<th>Reservation No</th>
+												</tr>
+											</thead>
+
+											<tbody>
+												<tr ng-repeat="arr in compDetails track by $index">
+													<td>{{arr.compCode}}</td>
+													<td>{{arr.compDesc}}</td>
+													<td>{{arr.compQty}} {{arr.uom}}</td>
+													<td>{{arr.reservationNo}}</td>
+												</tr>
+											</tbody>
+										</table>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-show="monthlyAssemblyTable && !isLoading">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box table-responsive">
+									<table class="table table-bordered" datatable="ng">
+										<thead>
+											<tr class="customTable">
+												<th>Assembly Code</th>
+												<th>Assembly Desc</th>
+												<th>Total QTY.</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr ng-repeat="arr in monthlyAssemblies track by $index">
+												<td>{{arr.assemblyCode}}</td>
+												<td>{{arr.assemblyDesc}}</td>
+												<td>{{arr.assemblyQty}} {{arr.uom}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-show="monthlyCompTable && !isLoading">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box table-responsive">
+									<table class="table table-bordered" datatable="ng">
+										<thead>
+											<tr class="customTable">
+												<th>Component Code</th>
+												<th>Component Desc</th>
+												<th>Total QTY.</th>
+											</tr>
+										</thead>
+
+										<tbody>
+											<tr ng-repeat="arr in monthlyComps track by $index">
+												<td>{{arr.compCode}}</td>
+												<td>{{arr.compDesc}}</td>
+												<td>{{arr.compQty}} {{arr.uom}}</td>
+											</tr>
+										</tbody>
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+
+		</div>
+	</div>
+</div>

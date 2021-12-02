@@ -1,0 +1,86 @@
+<div class="col-md-12 col-lg-12 " style="border:17px solid #A9DBD1">
+	<div class="card" style="border: 0px">
+
+		<div class="card-title" style="color: #F9B05C; padding-top: 10px;"><b>
+				Add Inward Quantity and Batch Quantity:
+			</b></div>
+
+		<div class="card-body">
+			<form name="addForm" ng-init="addForm.$pristine">
+				<div class="row">
+
+					<div class="col-md-12 col-xs-12">
+						<label class="control-form" style="padding-bottom: 25px;"> Total Quantity Purchased: <span
+								style="color: #8C9EFF">{{purchaseOrderItem.itemQty+" "+purchaseOrderItem.itemMsrUnit}}</span>
+						</label>
+					</div>
+
+					<div class="col-md-12 col-xs-12">
+						<label class="control-form" style="padding-bottom: 25px;"> Remaining Quantity for Inward: <span
+								style="color: #8C9EFF">{{remQty+" "+purchaseOrderItem.itemMsrUnit}}</span> </label>
+					</div>
+
+					<div class="col-md-12 col-xs-12">
+						<div class="form-group">
+							<label> Enter Received Quantity in <span
+									style="color: #8C9EFF">{{purchaseOrderItem.itemMsrUnit}}</span> : <span
+									style="color:red;">*</span></label>
+							<input type="number" name="grnQuantity" ng-model="grnQty"
+								placeholder="Enter Received Quantity" class="form-control" max="{{remQty}}" min="0"
+								ng-change="enterQty()" required />
+							<span class="mandatory"
+								ng-show="addForm.grnQuantity.$dirty && addForm.grnQuantity.$invalid">
+								<span class="mandatory" ng-show="addForm.grnQuantity.$error.max"
+									style="color:red">Quantity must be below or ={{remQty}} </span>
+							</span>
+						</div>
+					</div>
+
+					<div class="col-md-12 col-xs-12">
+						<div class="form-group">
+							<label> Enter No. of Received Packages: <span style="color:red;">*</span></label>
+							<input type="number" name="boxQuantity" ng-model="boxQty"
+								placeholder="Enter Package Numbers" class="form-control" max="50" min="0"
+								ng-change="enterQty()" required />
+							<span class="mandatory"
+								ng-show="addForm.boxQuantity.$dirty && addForm.boxQuantity.$invalid">
+								<span class="mandatory" ng-show="addForm.boxQuantity.$error.max"
+									style="color:red;">Packages should be below 50</span>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-12 col-xs-12">
+						<div class="form-group">
+							<label> Select GRN Type: <span style="color:red;">*</span></label>
+								<select class="form-control f_left" style="height: 100%;"
+													ng-model="type"  ng-change="selectType(type)">
+													<option value="selectVendor" selected disabled >Select Type</option>
+													<option value="Green Channel" >Green Channel</option>
+													<option value="Normal" >Normal</option>
+												</select>
+							</span>
+						</div>
+					</div>
+					<div class="col-md-12 col-xs-12">
+						<div class="form-group">
+								<label style="color:red;" ng-show="createWarn && warn" ng-cloak>Warning </br> on Cancellation!</label>
+							</div>
+						<div class="form-group pull-right">
+							<button type="submit" class="btn btn-default btn-danger" ng-click="close()" ng-mouseover="warn = true" ng-mouseleave="warn = false"> Cancel
+							</button>
+							<button type="submit" class="btn btn-default btn-primary"
+								ng-disabled=" typeSelcted && qtyEntered && !addForm.$valid || spamBlocker" ng-click="createGrn(purchaseOrderItem)">
+								Create GRN </button>
+						</div>
+					</div>
+
+					<div class="col-md-12 col-xs-12">
+						<div class="form-group">
+							<label style="color:red;" ng-show="createWarn && warn" ng-cloak>All deviations for selected PO will be removed without creating GRN!!</label>
+						</div>
+					</div>
+
+				</div>
+			</form>
+		</div>
+	</div>

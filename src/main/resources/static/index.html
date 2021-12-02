@@ -1,0 +1,303 @@
+<!DOCTYPE html>
+<html lang="en" ng-app="myApp" class="no-js">
+
+<head>
+	
+	<meta charset="utf-8" />
+	<title>Barcode Tracking</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+	<meta content="A fully featured admin theme which can be used to build CRM, CMS, etc." name="description" />
+	<meta content="Coderthemes" name="author" />
+	<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+
+	<!-- TEMPLATE ASSETS START -->
+	<!-- App favicon -->
+	<!-- C3 charts css -->
+	<link href="plugins/c3/c3.min.css" rel="stylesheet" type="text/css" />
+	<!-- Tooltipster css -->
+	<link rel="stylesheet" href="plugins/tooltipster/tooltipster.bundle.min.css">
+	<link data-require="bootstrap-css@3.1.1" data-semver="3.1.1" rel="stylesheet"
+		href="assets/css/bootstrap3.min.css" />
+
+	<!-- App css start-->
+	<link href="assets/css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/icons.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/metismenu.min.css" rel="stylesheet" type="text/css" />
+	<link href="assets/css/style.css" rel="stylesheet" type="text/css" />
+
+	<link rel="stylesheet" type="text/css" href="bower_components/angular-toastr/dist/angular-toastr.css" />
+	<link rel="stylesheet"
+		href="assets/css/angular-material.min.css">
+
+	<!-- <link rel="stylesheet" type="text/css" href="assets/css/customDataTable.css"> -->
+	<link rel="stylesheet" href="assets/css/dataTable.css">
+	
+	<link rel="stylesheet" type="text/css" href="assets/css/jquery.dataTables.min.css">	
+	<link rel="stylesheet" type="text/css" href="bower_components/angular-datatables/dist/css/angular-datatables.min.css">
+	
+
+	<!-- Login Page Handler -->
+	<!--===============================================================================================-->
+	<link rel="icon" type="image/png" href="templates/login/images/icons/favicon.ico" />
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="templates/login/fonts/Linearicons-Free-v1.0.0/icon-font.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="templates/login/vendor/css-hamburgers/hamburgers.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="templates/login/vendor/animsition/css/animsition.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="templates/login/vendor/select2/select2.min.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="templates/login/vendor/daterangepicker/daterangepicker.css">
+	<!--===============================================================================================-->
+	<link rel="stylesheet" type="text/css" href="templates/login/css/util3.css">
+	<link rel="stylesheet" type="text/css" href="templates/login/css/main3.css">
+	<link rel="stylesheet" type="text/css" href="bower_components/isteven-multi-select/isteven-multi-select.css">
+	
+	<!-- Login Page Handler -->
+	<!-- App css end-->
+
+<!--<script src="assets/js/jquery.core.js"></script> -->
+	<script src="assets/js/jquery.min.js"></script>		
+	<script src="assets/js/jquery.dataTables.min.js"></script>
+	<script src="assets/js/popper.min.js"></script>
+	<script src="assets/js/jquery.slimscroll.js"></script>
+	<script src="assets/js/modernizr.min.js"></script>
+	<!-- TEMPLATE ASSETS END -->
+
+	<!-- ANGULAR ASSETS START -->
+	<script src="bower_components/angular/angular.min.js"></script>
+	<script src="bower_components/angular-loader/angular-loader.min.js"></script>
+	<script src="bower_components/angular-mocks/angular-mocks.js"></script>
+	<script src="bower_components/angular-route/angular-route.min.js"></script>
+	<script src="bower_components/angular-ui-router/release/angular-ui-router.min.js"></script>
+	<script src="bower_components/angular-local-storage/dist/angular-local-storage.min.js"></script>
+	<script src="bower_components/angularUtils-pagination/dirPagination.js"></script>
+	<script src="bower_components/angular-cookies/angular-cookies.js"></script>
+	<script src="bower_components/chart.js/dist/Chart.min.js"></script>
+	<script src="bower_components/angular-chart.js/dist/angular-chart.min.js"></script>
+	<script src="bower_components/tinymce/tinymce.min.js"></script>
+	<script src="bower_components/angular-ui-tinymce/src/tinymce.js"></script>	
+	<script type="text/javascript" src="bower_components/angular-toastr/dist/angular-toastr.tpls.js"></script>
+	<script src="bower_components/angular-datatables/dist/angular-datatables.min.js"></script>
+	<script src="js/ui-bootstrap-tpls-2.1.4.js"></script>
+	<script src="bower_components/loadash/lodash.min.js"></script>
+	<script src="assets/js/angular-sanitize.js"></script>
+	<script src="bower_components/isteven-multi-select/isteven-multi-select.js"></script>
+		
+	
+	<!-- ANGULAR ASSETS END  -->
+	
+	<script src="templates/app.js"></script>
+	
+	<script src="assets/js/bootstrap.min.js"></script>	
+	<script src="assets/js/metisMenu.min.js"></script>
+	<script src="assets/js/waves.js"></script>
+	<script src="assets/js/qrcode.js"></script>
+
+	<!-- Angular Material requires Angular.js Libraries -->
+	<script src="assets/js/angular-material/angular.min.js"></script>
+	<script src="assets/js/angular-material/angular-animate.min.js"></script>
+	<script src="assets/js/angular-material/angular-aria.min.js"></script>
+	<script src="assets/js/angular-material/angular-messages.min.js"></script>
+
+	<!-- Angular Material Library -->
+	<script src="assets/js/angular-material/angular-material.min.js"></script>
+
+	<!-- Tooltipster js -->
+	<script src="plugins/tooltipster/tooltipster.bundle.min.js"></script>
+	<script src="assets/pages/jquery.tooltipster.js"></script>
+
+	<!-- <script src="bower_components/qrcode/lib/qrcode.min.js"></script> -->
+	<!-- <script src="bower_components/angular-qr/angular-qr.min.js"></script> -->
+
+	<!--C3 Chart-->
+	<script type="text/javascript" src="plugins/d3/d3.min.js"></script>
+	<!-- <script type="text/javascript" src="plugins/c3/c3.min.js"></script> -->
+
+	<!--Echart Chart-->
+	<!-- <script src="plugins/echart/echarts-all.js"></script> -->
+
+	<!-- Dashboard init -->
+	<!-- <script src="assets/pages/jquery.dashboard.js"></script> -->
+	<script src="assets/js/jquery.dataTables.min.js"></script>
+	<script type="text/javascript" src="assets/js/dataTables.bootstrap4.min.js"></script>
+
+	<!-- Date Handler start -->
+	<script src="assets/js/moment.min.js"></script>
+	<!-- Date Handler end -->
+
+
+	<!-- App js -->
+	<script src="assets/js/jquery.app.js"></script>
+
+	<!-- Login Page Handlers -->
+	<!--===============================================================================================-->
+	<script src="templates/login/vendor/animsition/js/animsition.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="templates/login/vendor/bootstrap/js/popper.js"></script>
+	<!--===============================================================================================-->
+	<script src="templates/login/vendor/select2/select2.min.js"></script>
+	<!--===============================================================================================-->
+	<script src="templates/login/vendor/countdowntime/countdowntime.js"></script>
+	<!-- Login Page Handlers -->
+
+
+		<!-- ================================================================================================= -->
+		<!-- ======================================= Modules Start =========================================== -->
+
+	<!-- app files start -->	
+	<script src="templates/constants.js"></script>
+	<!-- app files end -->
+	
+	<!-- Main Start -->
+	<script src="templates/main/main.module.js"></script>
+	<script src="templates/main/main.controller.js"></script>
+	<!-- Main End -->
+
+	<!-- home Start -->
+	<script src="templates/home/home.module.js"></script>
+	<script src="templates/home/home.controller.js"></script>
+	<!-- home End -->
+
+	<!-- Generic Start -->
+	<script src="templates/generic/generic.module.js"></script>
+	<script src="templates/generic/generic.factory.js"></script>
+	<script src="templates/generic/generic.http.js"></script>
+	<script src="templates/generic/FileSaver.js"></script>
+	<script src="templates/generic/json-export-excel.js"></script>
+
+	<!-- Generic End -->
+	<!-- Login form Start -->
+	<script src="templates/login/login.module.js"></script>
+	<script src="templates/login/login.controller.js"></script>
+	<script src="templates/login/login.factory.js"></script>
+	<script src="templates/login/login.http.js"></script>
+	<!-- Login form End -->
+
+	<!-- USER Start -->
+	<script src="templates/user/user.module.js"></script>
+	<script src="templates/user/user.controller.js"></script>
+	<script src="templates/user/user.service.js"></script>
+	<script src="templates/user/user.http.js"></script>
+	<!-- USER End -->
+
+	<!--Purchase Order Start -->
+		<script src="templates/purchaseOrder/purchaseOrder.module.js"></script>
+		<script src="templates/purchaseOrder/purchaseOrder.controller.js"></script>
+	<!-- Purchase Order End -->	
+
+	<!-- GRN Start -->
+	<script src="templates/grn/grn.module.js"></script>
+	<script src="templates/grn/grn.controller.js"></script>
+	<!-- GRN End -->
+	
+	<!-- qrGRN Start -->
+	<script src="templates/qrGrn/qrGrn.module.js"></script>
+	<script src="templates/qrGrn/qrGrn.controller.js"></script>
+	<!-- qrGRN End -->
+
+	<!-- Storage Bin Start -->
+	<script src="templates/storageBin/storageBin.module.js"></script>
+	<script src="templates/storageBin/storageBin.controller.js"></script>
+	<script src="templates/storageBin/storageBin.service.js"></script>
+	<!-- Storage Bin End -->
+	
+	<!-- Uploads Start -->
+	<script src="templates/uploads/uploads.module.js"></script>
+	<script src="templates/uploads/uploads.controller.js"></script>
+	<!-- Uploads End -->
+
+	<!-- Model Plan Start -->
+	<script src="templates/modelPlan/modelPlan.module.js"></script>
+	<script src="templates/modelPlan/modelPlan.controller.js"></script>
+	<!-- Model Plan End -->	
+
+	<!-- Requested Assembly Start -->
+	<script src="templates/requestedAssm/requestedAssm.module.js"></script>
+	<script src="templates/requestedAssm/requestedAssm.controller.js"></script>
+	<!-- Requested Assembly End -->
+
+	<!-- Requested Assembly Start -->
+	<script src="templates/kittingArea/kittingArea.module.js"></script>
+	<script src="templates/kittingArea/kittingArea.controller.js"></script>
+	<!-- Requested Assembly End -->
+
+	<!-- Customize Machine Start -->
+	<script src="templates/customizeMachine/customizeMachine.module.js"></script>
+	<script src="templates/customizeMachine/customizeMachine.controller.js"></script>
+	<!-- Customize Machine End -->
+	
+	<!-- Request Machine Start -->
+	<script src="templates/requestMachine/requestMachine.module.js"></script>
+	<script src="templates/requestMachine/requestMachine.controller.js"></script>
+	<!-- Request Machine End -->
+
+	<!-- Reports Start -->
+	<script src="templates/reports/reports.module.js"></script>
+	<script src="templates/reports/reports.controller.js"></script>
+	<!-- Reports End -->
+
+	<!-- User To Role Start -->
+	<script src="templates/userToRole/userToRole.module.js"></script>
+	<script src="templates/userToRole/userToRole.controller.js"></script>
+	<script src="templates/userToRole/userToRole.service.js"></script>
+	<script src="templates/userToRole/userToRole.http.js"></script>
+	<!-- User To Role End -->
+	
+	<!-- Role To User Start -->
+	<script src="templates/roleToUser/roleToUser.module.js"></script>
+	<script src="templates/roleToUser/roleToUser.controller.js"></script>
+	<script src="templates/roleToUser/roleToUser.service.js"></script>
+	<script src="templates/roleToUser/roleToUser.http.js"></script>
+	<!-- Role To User End -->
+	
+	<!-- roleManagement Start -->
+	<script src="templates/roleManagement/roleManagement.module.js"></script>
+	<script src="templates/roleManagement/roleManagement.controller.js"></script>
+	<script src="templates/roleManagement/roleManagement.service.js"></script>
+	<script src="templates/roleManagement/roleManagement.http.js"></script>
+	<!-- roleManagement End -->
+
+	<!-- Employee Start -->
+	<script src="templates/employee/employee.module.js"></script>
+	<script src="templates/employee/employee.controller.js"></script>
+	<!-- Employee End -->
+
+	<!-- Attendance Start -->
+	<script src="templates/attendance/attendance.module.js"></script>
+	<script src="templates/attendance/attendance.controller.js"></script>
+	<!-- Attendance End -->
+
+
+
+
+	<!-- Items Start -->
+	<script src="templates/items/items.module.js"></script>
+	<script src="templates/items/items.controller.js"></script>
+	<!-- Items  End -->	
+
+
+	<!-- ProductionOrder Start -->
+	<script src="templates/productionOrder/productionOrder.module.js"></script>
+	<script src="templates/productionOrder/productionOrder.controller.js"></script>
+	<!-- ProductionOrder End -->
+	
+	
+		<!-- Uploads Start -->
+	<script src="templates/supplierAndItems/supplierAndItems.module.js"></script>
+	<script src="templates/supplierAndItems/supplierAndItems.controller.js"></script>
+	<!-- Uploads End -->
+
+	<!-- ================================================================================================= -->
+	<!-- ======================================= Modules End =========================================== -->
+</head>
+
+
+<body>
+	<div class="loading"><img src="image/ajax-loader.gif" alt="loading-img"></div>
+	<div ui-view="main"></div>	
+
+</body>
+
+</html>

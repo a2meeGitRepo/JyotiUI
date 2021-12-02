@@ -1,0 +1,264 @@
+<style>
+	input:focus {
+		border: 1px solid grey !important;
+	}
+</style>
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left"> Create GRN - GOODS RECEIPT NOTE </h4>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+
+									<h4 class="m-t-0 header-title">Search By:</h4>
+
+									<form>
+										<div class="form-row">
+											<div class="form-group col-sm-2 col-xs-3">
+												<label class="col-form-label">Vendor Name<span> <i
+															style="color:red">*</i></span></label>
+											</div>
+											<div class="form-group col-sm-3 col-xs-3">
+												<select class="form-control f_left" style="height: 100%;"
+													ng-model="vendor" ng-change="fetchMaterialDetails(vendor)">
+													<option value="selectVendor">Select Vendor Name</option>
+													<option ng-repeat="opts in vendorDetails | orderBy:'name'"
+														value="{{opts}}">{{opts.name}} </option>
+												</select>
+											</div>
+											<div class="col-sm-1 col-xs-1"></div>
+											<div class="form-group col-sm-2 col-xs-3">
+												<label class="col-form-label"> Material ID: <span> <i
+															style="color:red">*</i></span></label>
+											</div>
+											<div class="col-sm-3 col-xs-3">
+												<input name="itemList" type="text" placeholder="Enter Item Name"
+													ng-model="materialObj" ng-disabled="vendor=='selectVendor'"
+													typeahead-on-select="changeMaterialFun(materialObj)"
+													uib-typeahead="item as item.id for item in materialDetails | filter:$viewValue | limitTo:8"
+													typeahead-no-results="itemLists"
+													class="form-control typeahead-demo">
+											</div>
+										</div>
+									</form>
+
+									<h4 class="m-t-0 header-title">Or:</h4>
+
+									<form>
+										<div class="form-row">
+											<div class="form-group col-sm-2 col-xs-3">
+												<label class="col-form-label" style="padding-top: 11px;"> PO Number:
+													<span> <i style="color:red">*</i></span></label>
+											</div>
+											<div class="form-group col-sm-3 col-xs-3">
+												<div class="col-form-label">
+													<input type="number"
+														onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57"
+														ng-model="purchaseOrderNo" ng-change="resetOthers()"
+														class="f_left form-control">
+												</div>
+											</div>
+											<div class="col-sm-1 col-xs-1"></div>
+											<div class="form-group col-sm-2 col-xs-3">
+												<label class="col-form-label" style="padding-top: 11px;"> Today's PO:
+													<span> <i style="color:red">*</i></span></label>
+											</div>
+											<div class="form-group col-sm-3 col-xs-3">
+												<div class="col-form-label">
+													<select class="form-control f_left" style="height: 100%;"
+														ng-model="purchaseOrder" ng-change="resetVendor(purchaseOrder)">
+														<option value="" disabled selected>Select Purchase Order
+														</option>
+														<option ng-repeat="opts in inwardedPo"
+															value="{{opts.purchaseOrderNo}}">
+															{{opts.purchaseOrderNo}} </option>
+													</select>
+												</div>
+											</div>
+										</div>
+									</form>
+
+									<form>
+										<div class="form-row">
+											<div class="col-sm-8 col-xs-8"></div>
+											<div class="col-sm-3 col-xs-3 form-group">
+												<button
+													class="btn btn-warning btn-rounded w-md waves-effect waves-light"
+													ng-click="fetchTableData()" style="margin-right: 25px;">Show
+													Data</button>
+												<button
+													class="btn btn-warning btn-rounded w-md waves-effect waves-light"
+													ng-click="fetchDeviationList()">Show Deviation</button>
+											</div>
+										</div>
+									</form>
+
+								</div>
+							</div>
+						</div>
+
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-show="showDeviations">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+									<h4 class="m-t-0 header-title"> Select Deviations: </h4>
+									<div class="row">
+										<div class="col-sm-3">
+											<ul style="list-style-type: none" ng-repeat="arr in deviations"
+												ng-if="$index<=2">
+												<li><input class="c_check" ng-checked="arr.check"
+														ng-click="checkDeviations($index)" type="checkbox" />
+													{{arr.errorMessage}}</li>
+											</ul>
+										</div>
+										<div class="col-sm-3">
+											<ul style="list-style-type: none" ng-repeat="arr in deviations"
+												ng-if="$index >2 && $index<=5">
+												<li><input class="c_check" ng-checked="arr.check"
+														ng-click="checkDeviations($index)" type="checkbox" />
+													{{arr.errorMessage}}</li>
+											</ul>
+										</div>
+										<div class="col-sm-3">
+											<ul style="list-style-type: none" ng-repeat="arr in deviations"
+												ng-if="$index>5 && $index <=8">
+												<li><input class="c_check" ng-checked="arr.check"
+														ng-click="checkDeviations($index)" type="checkbox" />
+													{{arr.errorMessage}}</li>
+											</ul>
+										</div>
+										<div class="col-sm-3">
+											<ul style="list-style-type: none" ng-repeat="arr in deviations"
+												ng-if="$index>8">
+												<li><input class="c_check" ng-checked="arr.check"
+														ng-click="checkDeviations($index)" type="checkbox" />
+													{{arr.errorMessage}}</li>
+											</ul>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-8 col-xs-8"></div>
+										<div class="col-sm-3 col-xs-3 form-group">
+											<button class="btn btn-primary w-md waves-effect waves-light"
+												ng-disabled="clearAllChks" ng-click="clearAll()">
+												Clear All</button>
+											<button class="btn btn-warning w-md waves-effect waves-light"
+												ng-disabled="noDeviation" ng-show="newData"
+												ng-click="saveDeviations()">Save
+												Deviations</button>
+											<button ng-class="myDynamicClass" class="w-md waves-effect waves-light"
+												ng-disabled="removeDeviation" ng-show="!newData"
+												ng-click="updateDeviations()">
+												<span ng-show="grnPossible">GRN</span><span ng-hide="grnPossible">Update
+													Deviations</span>
+											</button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row" ng-show="showTable">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-sm-12 col-xs-12">
+								<div class="card-box table-responsive">
+									<table class="table table-bordered" id="tbl_grn" datatable="ng"
+										dt-column-defs="dtColumnDefs" dt-options="dtOptions">
+										<thead>
+											<tr class="customTable">
+												<th>#</th>
+												<th>PO No.</th>
+												<th>Vendor Name</th>
+												<th>Item Code</th>
+												<th>Item Details</th>
+												<th>Inward Date</th>
+												<th>Invoice No.</th>
+												<th>Challan No.</th>
+												<th><span ng-show="showFields"><input class="c_check" type="checkbox"
+															ng-model="vm.selectAllChk"
+															ng-click="selectAllTable()"><br /> Deviations Present?
+													</span><span ng-hide="showFields">Show Deviations</span></th>
+												<th ng-show="showFields">Create GRN</th>
+											</tr>
+										</thead>
+
+										<tbody ng-show="showFields">
+											<tr ng-repeat="arr in allDetails track by $index">
+												<td>{{$index + 1}}</td>
+												<td>{{arr.purchaseOrderNo}}</td>
+												<td>{{arr.venName}}</td>
+												<td>{{arr.itemMstId}}</td>
+												<td>{{arr.itemDetails}}</td>
+												<td>{{arr.inwardDate|date: "dd/MM/yyyy"}}</td>
+												<td>{{arr.invoiceNumber}}</td>
+												<td>{{arr.challanNumber}}</td>
+												<td ><input class="c_check" type="checkbox" ng-checked="arr.check"   ng-show="arr.deviationEnable"
+														ng-click="showDeviationsList($index)">
+												</td>
+												<td ng-show="showFields">
+													<button
+														class="btn btn-success btn-rounded w-md waves-effect waves-light"
+														ng-disabled="arr.check" ng-click="vm.addGrn(arr)">GRN</button>
+												</td>
+
+											</tr>
+
+										</tbody>
+
+										<tbody ng-hide="showFields">
+											<tr ng-repeat="arr in allDetails | unique:'purchaseOrderItemId'">
+												<td>{{$index + 1}}</td>
+												<td>{{arr.purchaseOrderNo}}</td>
+												<td>{{arr.venName}}</td>
+												<td>{{arr.itemMstId}}</td>
+												<td>{{arr.itemDetails}}</td>
+												<td>{{arr.inwardDate|date: "dd/MM/yyyy"}}</td>
+												<td>{{arr.invoiceNumber}}</td>
+												<td>{{arr.challanNumber}}</td>
+
+												<td>
+													<button
+														class="btn btn-warning btn-rounded w-md waves-effect waves-light"
+														ng-click="getErrorList(arr)">
+														Show Errors</button>
+												</td>
+											</tr>
+										</tbody>
+
+									</table>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+		</div>
+	</div>
+</div>

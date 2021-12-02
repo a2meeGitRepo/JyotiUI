@@ -1,0 +1,72 @@
+
+<head>
+	<title>Login V16</title>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<style>
+		.footer1 {
+			color: #fff;
+			background: #FFAA5A;
+			background: -webkit-linear-gradient(left, #FFCA28, #FFAA5A, #FF785A);
+			background: -o-linear-gradient(left, #FFCA28, #FFAA5A, #FF785A);
+			background: -moz-linear-gradient(left, #FFCA28, #FFAA5A, #FF785A);
+			background: linear-gradient(left, #FFCA28, #FFAA5A, #FF785A);
+			padding: 10px 1%;
+			position: fixed;
+			bottom: 0px;
+			width: 100%;
+		}
+		
+		.footer1 p {
+			margin-bottom: 0px;
+		}
+	</style>
+</head>
+<body>
+	
+	<div class="limiter">
+		<div class="container-login100" style="background-image: url('templates/login/images/abc.jpg');">
+			<div class="wrap-login100 p-t-30 p-b-50">
+				
+				<form class="login100-form validate-form p-b-33 p-t-5">
+					<span class="login100-form-title p-b-50 p-t-50" 
+						style="background-image: url('assets/images/adplogo.jpg'); 
+						background-repeat: no-repeat; background-position: center;">					
+					</span>
+					<div class="wrap-input100 validate-input" data-validate = "Enter Employee Id">
+						<input class="input100" type="text" name="username" data-ng-model="login.id" Placeholder="Enter Employee Id">
+						<span class="focus-input100" data-placeholder="&#xe82a;"></span>
+					</div>
+
+					<div class="wrap-input100 validate-input" data-validate="Enter password">
+						<input class="input100" type="password" name="pass" data-ng-model="login.password" Placeholder="Enter password">
+						<span class="focus-input100" data-placeholder="&#xe80f;"></span>
+					</div>
+
+					<div class="container-login100-form-btn m-t-32">
+						<button class="login100-form-btn" name="submit"
+							value="Sign In" ng-click="vm.doLogin(login)">
+							Login
+						</button>
+					</div>
+
+				</form>
+			</div>
+			
+		<div class="footer1" style="opacity: 0.7;">
+			<p class="text-center">&copy COPYRIGHT RESERVED BY <a href="http://www.a2mee.com" target="_blank">A2MEE</p>
+		</div>
+		</div>
+	</div>
+	
+	
+
+	<!-- <div id="dropDownSelect1"></div> -->
+
+</body>
+
+	
+	<!-- Login Page Handler -->		
+		<!--===============================================================================================-->
+			<script src="templates/login/js/main3.js"></script>
+	<!-- Login Page Handler -->

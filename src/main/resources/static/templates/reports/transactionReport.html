@@ -1,0 +1,145 @@
+<style type="text/css">
+	input:focus {
+		border: 1px solid grey !important;
+	}
+	input[type="date"]::-webkit-clear-button { display: block; }
+	.date1 {
+		width: 200px !important;
+		font-size: 12px !important;
+		border: 2px solid #ccc !important;
+		border-radius: 4px !important;
+		-webkit-transition: width 0.4s ease-in-out !important;
+		transition: width 0.4s ease-in-out !important;
+		background: #fff url(image/calendar_2.png) 97% 50% no-repeat !important;
+	}
+
+	.date1::-webkit-inner-spin-button {
+		display: none;
+	}
+	
+	.date1::-webkit-clear-button {
+		
+	}
+
+	.date1::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
+</style>
+
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left">Transaction Report</h4>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+
+			<!-- start row -->
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+									<div class="row">
+										<div class="col-md-12 text-center">
+											<img src="../../image/quarantine.png" style="width: 50px; height: 50px;" />
+										</div>
+									</div>
+									<h4 class="m-t-0 header-title">Search By:</h4>
+									
+									<div class="row" style="margin-top:1%;">
+										<div class="col-sm-3 col-xs-3">
+											<label class="control-form"> Material Name:<span
+													style="color: red;">*</span></label>
+											<input name="modelList" type="text" placeholder="Enter Item Name"
+												ng-model="selectedItem"
+												uib-typeahead="item.itemMstId as item.itemMstId for item in vm.items | filter:$viewValue | limitTo:8"
+												typeahead-no-results="itemLists" class="form-control typeahead-demo">
+										</div>
+										<div class="col-sm-3 col-xs-3">
+											<label class="control-form"> Start Date:</label>
+											<input type="date" class="form-control"
+												ng-model="fromDate" >
+										</div>
+										<div class="col-sm-3 col-xs-3">
+											<label class="control-form"> End Date:</label>
+											<input type="date" class="form-control"
+												ng-model="toDate">
+										</div>
+										
+										<div class="col-sm-3 col-xs-3">
+											<label class="control-form"> &nbsp;</label>
+											<button type="button" class="btn btn-primary form-control" ng-click="vm.getTransactions()"> Get Transactions</button>
+										</div>
+										
+									</div>
+
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-12 text-center" ng-show="isLoading">
+								<!-- <span>Loading Storage Bins...</span> -->
+								<img src="../../image/transparent-background-loading.gif" alt="loading-img"
+									style="width: 50px; height: 50px">
+							</div>
+							<div class="col-sm-12 col-xs-12" ng-show="!isLoading">
+								<div class="card-box table-responsive">
+									<table class="table table-bordered" datatable="ng" dt-column-defs="dtColumnDefs"
+										dt-options="dtOptions" style="width:100%;margin:0 auto">
+										<thead>
+											<tr class="customTable">
+												<th>#</th>
+												<th>Material Name</th>
+												<th>Stage</th>
+												<th>Production / Purchase Order No</th>
+												<th>Date </th>
+												<th>Quantity</th>
+												<th>User / Employee</th>
+												
+											</tr>
+										</thead>
+										<tbody>
+											<tr ng-repeat="arr in vm.reportsList track by $index">
+												<td>{{$index + 1}}</td>
+												<td>{{arr.itemMstId}}</td>
+												<td>{{arr.stage}}</td>
+												<td>{{arr.orderNo}}</td>
+												<td>{{arr.date | date:'yyyy-MM-dd'}}</td>
+												<td>{{arr.qty}}</td>
+												<td>{{arr.empName}}</td>
+											</tr>
+										</tbody>
+									</table>
+
+								</div>
+								<button class="btn btn-info w-md btn-rounded waves-effect waves-light"
+									ng-show="vm.reportsList.length>0" style="float: right; width:20%;"
+									ng-json-export-excel data="vm.reportsList" report-fields="vm.labels"
+									filename="'Transaction Report'">Export</button>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+
+		</div>
+	</div>
+</div>

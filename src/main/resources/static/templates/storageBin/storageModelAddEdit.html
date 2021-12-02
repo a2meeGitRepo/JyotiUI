@@ -1,0 +1,47 @@
+<div class="col-md-12 col-lg-12" style="border:17px solid #A9DBD1">
+	<div class="card" style="border: 0px">
+
+		<div class="card-title" style="padding-top: 10px;"><b>
+			Storage Add
+		</b></div>
+		<div class="card-body">
+			<form name="addForm" ng-init="addForm.$pristine">
+				<div class="row">
+					
+						<div class="col-md-12 col-xs-12">
+							<div class="form-group">
+								<label>Store Location * :</label>
+								<input type="text" ng-model="storage.storage_location" placeholder="Enter Store Location" name="storage_location" class="form-control" style="text-transform:uppercase" required />
+								<span class="mandatory" ng-show = "addForm.storage_location.$touched && addForm.storage_location.$invalid">  
+									<span class="mandatory" ng-show = "addForm.storage_location.$error.required" style="color:red;">Store Location is required.</span>
+								</span>
+							</div>
+						</div>
+						
+						
+						
+						<div class="col-md-12 col-xs-12">
+							<div class="form-group">
+								<label>Description :</label> 
+								<textarea name="storage_desc" ng-model="storage.storage_desc" class="form-control">
+								</textarea>								
+							</div>
+						</div>
+						
+		
+							<div class="col-md-12 col-xs-12">
+								<div class="form-group pull-right">
+									<button type="submit" class="btn btn-default btn-danger"
+										ng-click="vm.cancel()">Cancel</button>
+									<button type="submit" class="btn btn-default btn-primary"
+										ng-click="vm.ok(storage)" ng-disabled="!addForm.$valid">Submit</button>
+								</div>
+							</div>
+
+						</div>
+			</form>	
+
+		</div>
+
+	</div>
+</div>

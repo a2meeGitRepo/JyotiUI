@@ -1,0 +1,463 @@
+<style>
+	.main {
+		margin: 5% auto;
+	}
+
+	.b {
+		border-style: ridge;
+		border-color: #61C5B1;
+		border-width: thin;
+		padding-top: 2vh;
+	}
+
+	input:focus {
+		border: 1px solid grey !important;
+	}
+
+	.date1 {
+		border: 1px solid #c4c4c4;
+		border-radius: 5px;
+		padding: 3px 5px;
+		box-shadow: inset 0 3px 6px rgba(0, 0, 0, 0.1);
+		background: #fff url(image/calendar_2.png) 97% 50% no-repeat;
+	}
+
+	.date1::-webkit-inner-spin-button {
+		display: none;
+	}
+
+	.date1::-webkit-calendar-picker-indicator {
+		opacity: 0;
+	}
+</style>
+
+<div class="content-page">
+	<!-- Start content -->
+	<div class="content">
+		<div class="container-fluid">
+			<div class="row">
+				<div class="col-12">
+					<div class="page-title-box">
+						<h4 class="page-title float-left"> Storage </h4>
+						<div class="clearfix"></div>
+					</div>
+				</div>
+			</div>
+			<!-- end row -->
+
+			<!-- Buttons to access below containers -->
+			<div class="row" ng-hide="storageBinFormOpen || itemBinFormOpen">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+
+									<h4 class="m-t-0 header-title">Select:</h4>
+
+									<div class="row">
+										<div class="col-md-3">
+											<button class="btn btn-warning btn-rounded waves-effect waves-light"
+												style="width:100%;" ng-hide="storageBinFormOpen"
+												ng-click="showStorageBinForm();">
+												New
+												Storage Bin </button></div>
+										<div class="col-md-3">
+											<button class="btn btn-warning btn-rounded waves-effect waves-light"
+												style="width:100%;" ng-hide="itemBinFormOpen"
+												ng-click="showItemBinForm();">
+												Assign
+												Item Type </button></div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- New Storage Bin Add Container -->
+			<div class="row" ng-show="isNewStorageBin">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+
+									<h4 class="m-t-0 header-title">Add a new Storage Bin:</h4>
+									<div class="row">
+										<div class="col-sm-4 col-xs-4">
+											<label class="control-form"> Select Plant: <span
+													style="color:red;">*</span></label>
+										</div>
+										<div class="col-sm-4 col-xs-4">
+											<label class="control-form"> Select Store: <span
+													style="color:red;">*</span></label>
+										</div>
+										<div class="col-sm-4 col-xs-4">
+											<label class="control-form"> Rack Code: <span
+													style="color:red;">*</span></label>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4 col-xs-4">
+
+											<select class="form-control f_left" id="selectPlantCode"
+												style="height: 38px !important;" ng-model="selectPlantCode"
+												ng-change="vm.getPlant(selectPlantCode)">
+												<option value="selectPlant"> Select Plant. </option>
+												<option ng-repeat="opts in vm.plants track by $index" value="{{opts}}">
+													{{opts.plant_code}} </option>
+											</select>
+											<!-- <button class="btn btn-success"  ng-click="vm.addPlant()">
+																	<i class="fa fa-plus" aria-hidden="true"></i></button>
+																<button class="btn btn-danger" ng-click="vm.deletPlantConfirm(selectPlantCode)" >
+																	<i class="fa fa-trash" aria-hidden="true"></i> </button> -->
+
+										</div>
+										<div class="col-sm-4 col-xs-4">
+											<select class="form-control f_left" id="selectStorageCode"
+												style="height: 38px !important;" ng-model="selectStorageCode"
+												ng-change="vm.getStorage(selectStorageCode)">
+												<option value="selectStorage"> Select Store. </option>
+												<option ng-repeat="opts in vm.storages track by $index"
+													value="{{opts}}">
+													{{opts.storage_location}} </option>
+											</select>
+											<div class="btn-group" style="padding-top: 10px;">
+												<button class="btn btn-success" ng-click="vm.addStorage()">
+													<i class="fa fa-plus" aria-hidden="true"></i></button>
+												<button class="btn btn-danger"
+													ng-click="vm.deletStorageConfirm(selectStorageCode)">
+													<i class="fa fa-trash" aria-hidden="true"></i> </button>
+											</div>
+										</div>
+
+										<div class="col-sm-4 col-xs-4">
+											<input type="text"
+												onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode != 189"
+												ng-model="rackLetter" class="f_left form-control" >
+										</div>
+									</div>
+
+									<div class="row" style="padding-top: 20px;">
+										<div class="col-sm-4 col-xs-4">
+											<label class="control-form"> Column Code: <span
+													style="color:red;">*</span></label>
+										</div>
+										<div class="col-sm-4 col-xs-4">
+											<label class="control-form"> Row Code: <span
+													style="color:red;">*</span></label>
+										</div>
+										<div class="col-sm-4 col-xs-4">
+											<label class="control-form"> Pallete Side: <span
+													style="color:red;">*</span></label>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4 col-xs-4">
+											<input type="text"
+												onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode != 189"
+												ng-model="columnNo" class="f_left form-control" >
+										</div>
+										<div class="col-sm-4 col-xs-4">
+											<input type="text"
+												onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode != 189"
+												ng-model="rowLetter" class="f_left form-control" >
+										</div>
+										<div class="col-sm-4 col-xs-4">
+										<input type="text"
+												onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode != 189"
+												ng-model="paletteSide" class="f_left form-control" >
+											<!-- <select class="form-control f_left" ng-model="paletteSide">
+												<option value="L">Left</option>
+												<option value="R">Right</option>
+											</select> -->
+										</div>
+									</div>
+
+									<div class="row" style="padding-top: 20px;">
+										<div class="col-sm-4 col-xs-3">
+											<label class="control-form"> Storage Bin Code: <span
+													style="color:red;">*</span></label>
+										</div>
+									</div>
+
+									<div class="row">
+										<div class="col-sm-4 col-xs-3">
+											<label class="control-form"> {{plant.plant_code | uppercase}} -
+												{{storage.storage_location | uppercase}} -
+												{{rackLetter | uppercase}}{{columnNo}}{{rowLetter | uppercase}}{{paletteSide}}
+											</label>
+										</div>
+									</div>
+
+									<div class="row" style="padding-top: 20px;">
+										<div class="col-sm-3 col-xs-3"></div>
+										<div class="col-sm-3 col-xs-3"></div>
+										<div class="col-sm-3 col-xs-3">
+											<button class="btn btn-primary btn-rounded waves-effect waves-light"
+												style="width:100%;" ng-click="cancelAdd()"> Cancel </button>
+										</div>
+										<div class="col-sm-3 col-xs-3">
+											<button class="btn btn-success btn-rounded waves-effect waves-light"
+												style="width:100%;" ng-click="addStorageBin()"> Add
+												Storage Bin </button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+
+			<!-- Item Assign Container -->
+			<div class="row" ng-show="isNewItemBin">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+									<h4 class="m-t-0 header-title"> Assign Item Type to Storage Bin:</h4>
+
+									<div class="row" style="padding-top: 20px;">
+										<div class="col-sm-3 col-xs-3">
+											<label class="control-form"> Select Storage Bin: <span
+													style="color:red;">*</span></label>
+										</div>
+										<div class="col-sm-3 col-xs-3">
+											<select class="form-control f_left" ng-model="storageBin"
+												ng-change="binSelected()" ng-disabled="isItemAdded">
+												<option value="" disabled selected>Select StorageBin Code</option>
+												<option ng-repeat="opts in storageBins track by $index"
+													value="{{opts.storageBinCode}}"> {{opts.storageBinCode}}
+												</option>
+											</select>
+										</div>
+									</div>
+
+									<div class="row" ng-if="isItemAssigned" style="padding-top: 20px;">
+										<div class="col-sm-12 col-xs-3">
+											<label class="control-form"> Item types already assigned to this
+												bin:</label>
+										</div>
+										<div class="col-sm-8">
+											<table class="table table-bordered" style="width:100%;margin:0 auto">
+												<thead>
+													<tr class="customTable">
+														<th> # </th>
+														<th> Item Id </th>
+														<th> Item Detail </th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="arr in assignedItems track by $index">
+														<td>{{$index + 1}}</td>
+														<td>{{arr.itemMst.id}}</td>
+														<td>{{arr.itemMst.itemDtl}} <input type="image" class="btn"
+																src="../../image/close-window.png"
+																style="height:25px;width:25px;padding:0;"
+																ng-click="checkRemoveItem($index, arr)"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+									<div class="row" style="padding-top: 20px;">
+										<div class="col-sm-3 col-xs-3">
+											<label class="control-form"> Search And Add Item Type <span
+													style="color:red;">*</span></label>
+										</div>
+									</div>
+
+									<div class="row" style="padding-top: 20px;">
+										<div class="col-sm-3 col-xs-3">
+											<input name="itemList" type="text" placeholder="Enter Item Name"
+												ng-model="selectedItem" ng-disabled="isBinSelected"
+												uib-typeahead="item as item.itemMstId for item in itemList | filter:$viewValue | limitTo:8"
+												typeahead-no-results="itemLists" class="form-control typeahead-demo">
+										</div>
+
+										<div class="col-sm-1 col-xs-3">
+											<button class="btn btn-success waves-effect waves-light"
+												ng-click="addItemType()"> Add </button>
+										</div>
+
+										<div class="col-sm-8">
+											<table class="table table-bordered" style="width:100%;margin:0 auto">
+												<thead>
+													<tr class="customTable">
+														<th> # </th>
+														<th> Item Id </th>
+														<th> Item Detail </th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-repeat="arr in itemTypes track by $index">
+														<td>{{$index + 1}}</td>
+														<td>{{arr.itemMstId}}</td>
+														<td>{{arr.itemDtl}} <input type="image" class="btn"
+																src="../../image/close-window.png"
+																style="height:25px;width:25px;padding:0;"
+																ng-click="removeItem($index)"></td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+
+									<div class="row" style="padding-top: 20px;">
+										<div class="col-sm-3 col-xs-3"></div>
+										<div class="col-sm-3 col-xs-3"></div>
+										<div class="col-sm-3 col-xs-3">
+											<button class="btn btn-primary" style="width:100%;" ng-click="cancelAdd()">
+												Cancel </button>
+										</div>
+										<div class="col-sm-3 col-xs-3">
+											<button class="btn btn-success" style="width:100%;"
+												ng-click="assignItemType()">
+												Assign </button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- Stock Container -->
+			<div class="row" id="scrollId" ng-show="isStock ">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							<div class="col-md-12">
+								<div class="card-box">
+									<h4 class="m-t-0 header-title"> Stock For Storage Bin :
+										{{vm.stocks[0].storageBinCode}}</h4>
+
+									<div class="row">
+										<div class="col-sm-12" style="margin-bottom:2%;">
+											<table class="table table-bordered" style="width:100%;margin:0 auto">
+												<thead>
+													<tr class="customTable">
+														<th> # </th>
+														<th> Item Id </th>
+														<th> Item Detail </th>
+														<th> Stock Qty </th>
+													</tr>
+												</thead>
+												<tbody>
+													<tr ng-if="vm.stocks.length == 0">
+														<td colspan="4">No Stock Found for This Storage Bin ..!</td>
+													</tr>
+													<tr ng-repeat="stock in vm.stocks track by $index">
+														<td>{{$index + 1}}</td>
+														<td>{{stock.itemMstId}}</td>
+														<td>{{stock.itemDtl}}</td>
+														<td>{{stock.qty}}</td>
+													</tr>
+												</tbody>
+											</table>
+										</div>
+									</div>
+									<div class="row">
+										<div class="col-sm-12 col-xs-12">
+											<button class="btn btn-primary w-md btn-rounded waves-effect waves-light"
+												style="float: right" ng-click="close()"> Close </button>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+                     <div class="row" style="margin-bottom:10px">
+								<div class="col-8">
+					              <label for="search">Search:</label>
+					              <input ng-model="q" id="search" class="form-control" placeholder="Filter text">
+					            </div>
+					            <div class="col-4 pull-right">
+					              <label for="search">items per page:</label>
+					              <input type="number" min="1" max="100" class="form-control" ng-model="vm.perPage">
+					            </div>
+           				 </div>
+			<div class="row" ng-hide="isFormOpen">
+				<div class="col-12">
+					<div class="page-title-box">
+						<div class="row">
+							     
+							<div class="col-sm-12 col-xs-12" >
+								<div class="card-box table-responsive">
+									<table class="table table-bordered" dt-column-defs="dtColumnDefs"
+										dt-options="dtOptions" style="width:100%;margin:0 auto">
+										<thead>
+											<tr class="customTable">
+												<th> # </th>
+												<th> Storage Bin Code </th>
+												<th> Item Types </th>
+												<th> Action </th>
+											</tr>
+										</thead>
+										<tbody>
+											<tr dir-paginate="arr in storageBins | filter:q |itemsPerPage:vm.perPage" total-items="vm.total_count" current-page="pagination.current">
+												<td>{{$index + 1}}</td>
+												<td>{{arr.storageBinCode}}</td>
+												<td>{{arr.itemMaps}}</td>
+												<td style="vertical-align:top;"><button type="button"
+														class="btn btn-info" ng-click="vm.getStockList(arr);"
+														style="height: 10%;float:none;position:relative">Show
+														Stocks</button>
+													<br />
+													<input type="checkbox" ng-checked="arr.select" class="c_check"
+														ng-click="arr.select = !arr.select;"
+														style="float:none;position:relative"></td>
+											</tr>
+										</tbody>
+									</table>
+									              <dir-pagination-controls on-page-change="vm.pageChanged(newPageNumber)"  ></dir-pagination-controls>
+									
+									<!-- Print QR Code Button -->
+									<button class="btn btn-success w-md btn-rounded waves-effect waves-light"
+										ng-show="storageBins.length > 0" style="float: right; width:20%;"
+										ng-click="printCode();">Print</button>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+
+			<!-- QR Code -->
+			<div ng-repeat="arr in qrCodeArr track by $index" ng-hide="true">
+				<div id="qrPrintParent{{$index}}">
+					<div class="main"
+						style="border:1px solid #000;padding:5px;width:400px;font-family:arial;height:185px;page-break-after: always;">
+						<p style="font-size:14px;font-family:arial;text-align:left;font-weight:500;margin-bottom:2px;line-height:18px;margin-left:10px"">Jyoti CNC Automation Ltd.</p>
+					<div style=" width:58%;text-align: left;float:left;margin-right:-1%;margin-top:2px">
+							<p
+								style="font-size: 13px;position: relative;margin-top:0px;padding-left:10px;width:100%;text-overflow: ellipsis;margin-top:6%">
+								Storage Bin Code: {{arr.storageBinCode}} </p>
+							<p title="{{operatorName}}"
+								style="font-size: 13px;position: relative;margin-top:0px;padding-left:10px;width:100%;text-overflow: ellipsis;margin-top:13%;">
+								Divisions: {{arr.divisions}} </p>
+					</div>
+					<div style="float:left;width:38%;margin-left:1%;margin-top:0px;">
+						<p style="text-align:right;">
+							<div style="max-width: 100%;height: auto;width:60%;text-align: center;"
+								id="qrPrint{{$index}}">
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+
+	</div>
+</div>
+</div>
